@@ -34,4 +34,8 @@ typedef struct
             mudancas;
     char
             matricula[15];
+    int
+            disponivel;
 } Tviatura;
+
+struct Tcliente endUser={};

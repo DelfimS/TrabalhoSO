@@ -17,11 +17,11 @@ int clientesSemId=0;
 
 
 void setupSems(){
-    viaturasSemId=semget(shmKeyV,1,IPC_CREAT|0666);
+    viaturasSemId=semget(shmKeyV,1,IPC_CREAT|IPC_EXCL|0666);
     exit_on_error(viaturasSemId,"falha no semget");
     int status=semctl(viaturasSemId,0,SETVAL,1);
     exit_on_error(status,"falha no semctl");
-    clientesSemId=semget(shmKeyU,1,IPC_CREAT|0666);
+    clientesSemId=semget(shmKeyU,1,IPC_CREAT|IPC_EXCL|0666);
     exit_on_error(clientesSemId,"falha no semget");
     status=semctl(clientesSemId,0,SETVAL,1);
     exit_on_error(status,"falha no semctl");
@@ -32,7 +32,7 @@ void VSemUp(){int status=semop(viaturasSemId,&UP,1);exit_on_error(status,"erro n
 void VSemDown(){int status=semop(viaturasSemId,&DOWN,1);exit_on_error(status,"erro no DOWN")};
 
 void createShmU(){
-    int id=shmget(shmKeyU,clientessize* sizeof(Tcliente),IPC_CREAT | 0666);
+    int id=shmget(shmKeyU,clientessize* sizeof(Tcliente),IPC_CREAT | IPC_EXCL | 0666);
     exit_on_error(id,"falha no shmget");
     clientes=shmat(id,0,0);
     exit_on_null(clientes,"falha no shmat");
@@ -45,7 +45,7 @@ void getShmU(){
 
 }
 void createShmV(){
-    int id=shmget(shmKeyV,viaturassize* sizeof(Tviatura),IPC_CREAT | 0666);
+    int id=shmget(shmKeyV,viaturassize* sizeof(Tviatura),IPC_CREAT | IPC_EXCL | 0666);
     exit_on_error(id,"falha no shmget");
     viaturas=shmat(id,0,0);
     exit_on_null(viaturas,"falha no shmat");
