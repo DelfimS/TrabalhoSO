@@ -1,0 +1,2 @@
+ghost;cona;1088888;Pedro Mota;a88888@iscte-iul.pt;IB1;9999999
+maria;itsme;1088889;Maria Mercedes;a88889@iscte-iul.pt;EI1;40

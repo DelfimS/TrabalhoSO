@@ -1,0 +1,9 @@
+Vespa;cona;Haibike;Sduro All Mountain 7.0;manual;18;5-LSB-53-68
+
+Mosca;preto;BTwin;Rockrider 5.2 S;manual;18;5-LSB-53-69
+
+Melro;preto;Bike Giant;Sduro All Mountain 7.0;manual;18;5-LSB-53-70
+
+Moscardo;cinzento;Specialized;Patanistic Speedo 1.2;eletrica;18;5-LSB-55-02
+
+Vaca;branco;Specialized;Fatboy;manual;24;5-LSB-53-01

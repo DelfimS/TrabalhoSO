@@ -1,0 +1,3 @@
+/home/delfim/CLionProjects/TrabalhoSO/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/home/delfim/CLionProjects/TrabalhoSO/cmake-build-debug/CMakeFiles/edit_cache.dir
+/home/delfim/CLionProjects/TrabalhoSO/cmake-build-debug/CMakeFiles/TrabalhoSO.dir

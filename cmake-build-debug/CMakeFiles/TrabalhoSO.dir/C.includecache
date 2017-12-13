@@ -1,0 +1,34 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/delfim/CLionProjects/TrabalhoSO/admin.c
+stdio.h
+-
+string.h
+-
+stdlib.h
+-
+structs.h
+/home/delfim/CLionProjects/TrabalhoSO/structs.h
+defines.h
+/home/delfim/CLionProjects/TrabalhoSO/defines.h
+
+/home/delfim/CLionProjects/TrabalhoSO/defines.h
+sys/ipc.h
+-
+sys/types.h
+-
+sys/shm.h
+-
+sys/sem.h
+-
+
+/home/delfim/CLionProjects/TrabalhoSO/structs.h
+stdio.h
+-
+
