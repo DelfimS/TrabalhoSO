@@ -32,26 +32,26 @@ void VSemUp(){int status=semop(viaturasSemId,&UP,1);exit_on_error(status,"erro n
 void VSemDown(){int status=semop(viaturasSemId,&DOWN,1);exit_on_error(status,"erro no DOWN")};
 
 void createShmU(){
-    int id=shmget(shmKeyU,clientessize* sizeof(Tcliente),IPC_CREAT | IPC_EXCL | 0666);
+    int id=shmget(shmKeyU,(clientessize+1)* sizeof(Tcliente),IPC_CREAT | IPC_EXCL | 0666);
     exit_on_error(id,"falha no shmget");
     clientes=shmat(id,0,0);
     exit_on_null(clientes,"falha no shmat");
 }
 void getShmU(){
-    int id=shmget(shmKeyU,clientessize* sizeof(Tcliente),0);
+    int id=shmget(shmKeyU,(clientessize+1)* sizeof(Tcliente)+1,0);
     exit_on_error(id,"falha no shmget");
     clientes=shmat(id,0,0);
     if(clientes==NULL)createShmU();
 
 }
 void createShmV(){
-    int id=shmget(shmKeyV,viaturassize* sizeof(Tviatura),IPC_CREAT | IPC_EXCL | 0666);
+    int id=shmget(shmKeyV,(viaturassize+1)* sizeof(Tviatura),IPC_CREAT | IPC_EXCL | 0666);
     exit_on_error(id,"falha no shmget");
     viaturas=shmat(id,0,0);
     exit_on_null(viaturas,"falha no shmat");
 }
 void getShmV(){
-    int id=shmget(shmKeyV,viaturassize* sizeof(Tviatura),0);
+    int id=shmget(shmKeyV,(viaturassize+1)* sizeof(Tviatura),0);
     exit_on_error(id,"falha no shmget");
     viaturas=shmat(id,0,0);
     if(viaturas==NULL)createShmV();
@@ -75,6 +75,8 @@ void readMemory(){
         while(fread(&cdat, sizeof(cdat), 1,fb )>0) {
             clientes[idx++] = cdat;
         }
+        idx++;
+        clientes[idx]=endUser;
         USemUp();
         fclose(fb);
     }else if(fopen("./utilizadores.txt","r")!=NULL){
@@ -109,6 +111,8 @@ void readMemory(){
             c.saldo = atoi(tokenu);
             clientes[idx++] = c;
         }
+        idx++;
+        clientes[idx]=endUser;
         USemUp();
         fclose(futxt);
     }
@@ -127,6 +131,8 @@ void readMemory(){
         while(fread(&vdat, sizeof(vdat), 1,fb )>0) {
             viaturas[idx++] = vdat;
         }
+        idx++;
+        viaturas[idx]=endBike;
         fclose(fb);
         VSemUp();
     }else if(fopen("./viaturas.txt", "r")!=NULL){
@@ -160,6 +166,8 @@ void readMemory(){
             strcpy(v.matricula, tokenv);
             viaturas[idx++] = v;
         }
+        idx++;
+        viaturas[idx]=endBike;
         VSemUp();
         fclose(futxt);
     }

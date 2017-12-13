@@ -13,7 +13,7 @@
   <component name="ChangeListManager">
     <list default="true" id="5b30dbae-4357-42fc-8f3a-e41d4ff14b33" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/structs.h" afterPath="$PROJECT_DIR$/structs.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/admin.c" afterPath="$PROJECT_DIR$/admin.c" />
     </list>
     <ignored path="$PROJECT_DIR$/cmake-build-debug/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -35,7 +35,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="structs.h" pinned="false" current-in-tab="true">
+      <file leaf-file-name="structs.h" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/structs.h">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="558">
@@ -81,11 +81,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="admin.c" pinned="false" current-in-tab="false">
+      <file leaf-file-name="admin.c" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/admin.c">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="198">
-              <caret line="15" column="20" lean-forward="false" selection-start-line="15" selection-start-column="20" selection-end-line="15" selection-end-column="20" />
+            <state relative-caret-position="2126">
+              <caret line="169" column="30" lean-forward="false" selection-start-line="169" selection-start-column="30" selection-end-line="169" selection-end-column="30" />
               <folding />
             </state>
           </provider>
@@ -117,8 +117,8 @@
         <option value="$PROJECT_DIR$/CMakeLists.txt" />
         <option value="$PROJECT_DIR$/defines.h" />
         <option value="$PROJECT_DIR$/servidor.c" />
-        <option value="$PROJECT_DIR$/admin.c" />
         <option value="$PROJECT_DIR$/structs.h" />
+        <option value="$PROJECT_DIR$/admin.c" />
       </list>
     </option>
   </component>
@@ -222,7 +222,7 @@
       <workItem from="1513098534232" duration="757000" />
       <workItem from="1513105000955" duration="42000" />
       <workItem from="1513135647497" duration="7372000" />
-      <workItem from="1513173453789" duration="1646000" />
+      <workItem from="1513173453789" duration="2047000" />
     </task>
     <task id="LOCAL-00001" summary="Added IPC_EXCL to the shm and sems">
       <created>1513174892334</created>
@@ -231,11 +231,18 @@
       <option name="project" value="LOCAL" />
       <updated>1513174892334</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Added ending cases to Tcliente and Tviatura">
+      <created>1513175257079</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1513175257079</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="27935000" />
+    <option name="totallyTimeSpent" value="28336000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="67" y="25" width="1853" height="950" extended-state="6" />
@@ -291,7 +298,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Added IPC_EXCL to the shm and sems" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added IPC_EXCL to the shm and sems" />
+    <MESSAGE value="Added ending cases to Tcliente and Tviatura" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added ending cases to Tcliente and Tviatura" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -635,30 +643,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/cliente.c">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="10" column="0" lean-forward="false" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#18#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file:///usr/include/x86_64-linux-gnu/sys/sem.h">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="702">
           <caret line="39" column="7" lean-forward="false" selection-start-line="39" selection-start-column="7" selection-end-line="39" selection-end-column="7" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/servidor.c">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="642">
-          <caret line="84" column="5" lean-forward="false" selection-start-line="84" selection-start-column="5" selection-end-line="84" selection-end-column="5" />
-          <folding>
-            <element signature="e#0#18#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -672,18 +660,38 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/admin.c">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="198">
-          <caret line="15" column="20" lean-forward="false" selection-start-line="15" selection-start-column="20" selection-end-line="15" selection-end-column="20" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/structs.h">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="558">
           <caret line="31" column="21" lean-forward="true" selection-start-line="31" selection-start-column="21" selection-end-line="31" selection-end-column="21" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cliente.c">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="10" column="0" lean-forward="false" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#18#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/servidor.c">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="642">
+          <caret line="84" column="5" lean-forward="false" selection-start-line="84" selection-start-column="5" selection-end-line="84" selection-end-column="5" />
+          <folding>
+            <element signature="e#0#18#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/admin.c">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2126">
+          <caret line="169" column="30" lean-forward="false" selection-start-line="169" selection-start-column="30" selection-end-line="169" selection-end-column="30" />
           <folding />
         </state>
       </provider>
