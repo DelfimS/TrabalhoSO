@@ -37,5 +37,5 @@ typedef struct
     int
             disponivel;
 } Tviatura;
-
-struct Tcliente endUser={};
+Tcliente endUser={"empty","empty",-1,"empty","empty","empty",-1};
+Tviatura endBike={"empty","empty","empty","empty","empty",-1,"empty",-1};
