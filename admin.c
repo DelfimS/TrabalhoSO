@@ -1,193 +1,202 @@
+//
+// Created by delfim on 10-11-2017.
+//
 #include <stdio.h>
-#include <unistd.h>
 #include <string.h>
 #include <stdlib.h>
 #include "structs.h"
 #include "defines.h"
 #define MaxSize 128
+#define v viaturas[i]
+#define c clientes[i]
+
 Tviatura* viaturas;
 int viaturassize=0;
+int viaturasSemId;
 Tcliente* clientes;
 int clientessize=0;
+int clientesSemId;
 
-void createShmU() {
-	int idSU = shmget(shmKeyU, maxU * sizeof(Tcliente), IPC_CREAT | IPC_EXCL | 0666);
-	
-	if(idSU > 0) {	
-		clientes = (Tcliente*) shmat(idSU, 0, 0);
-		exit_on_null(clientes, "Failed to attach clients");
 
-		int i;
-		for(i=0; i<maxU; i++) {
-			strcpy(clientes[i].nick, "empty");
-			strcpy(clientes[i].pass, "empty");
-			clientes[i].id = -1;
-			strcpy(clientes[i].nome, "empty");
-			strcpy(clientes[i].email, "empty");
-			strcpy(clientes[i].turma, "empty");
-			clientes[i].saldo = 0;	
-		} 
-	
-		printf("Client memory created\n");
-	} else {
-		int id = shmget(shmKeyU, 0, 0666);
-		clientes = (Tcliente*) shmat(id, 0, 0);
-		exit_on_null(clientes, "Failed to attach clients2");
+void setupSems(){
+    viaturasSemId =semget(shmKeyV,1,IPC_CREAT|IPC_EXCL|0666);
+    if (viaturasSemId<0)viaturasSemId=semget(shmKeyV,1,0);
+    int status=semctl(viaturasSemId,0,SETVAL,1);
+    exit_on_error(status,"falha no semctl");
+    clientesSemId=semget(shmKeyU,1,IPC_CREAT|IPC_EXCL|0666);
+    if (clientesSemId<0)clientesSemId=semget(shmKeyU,1,0);
+    status=semctl(clientesSemId,0,SETVAL,1);
+    exit_on_error(status,"falha no semctl");
+};
+void USemUp(){int status=semop(clientesSemId,&UP,1);exit_on_error(status,"erro no UP")};
+void USemDown(){int status=semop(clientesSemId,&DOWN,1);exit_on_error(status,"erro no DOWN")};
+void VSemUp(){int status=semop(viaturasSemId,&UP,1);exit_on_error(status,"erro no UP")};
+void VSemDown(){int status=semop(viaturasSemId,&DOWN,1);exit_on_error(status,"erro no DOWN")};
 
-		printf("Attached to existing client memory\n");
-	}
+void createShmU(){
+    int id=shmget(shmKeyU,(clientessize+1)* sizeof(Tcliente),IPC_CREAT | IPC_EXCL | 0666);
+    exit_on_error(id,"falha no shmget");
+    clientes=shmat(id,0,0);
+    exit_on_null(clientes,"falha no shmat");
 }
-
-void createShmV() {
-	int idSV = shmget(shmKeyV, maxV * sizeof(Tviatura), IPC_CREAT | IPC_EXCL | 0666);
-
-	if(idSV > 0) {
-		viaturas = (Tviatura*) shmat(idSV, 0, 0);
-		exit_on_null(viaturas, "Failed to attach vehicle");
-
-		int i;
-		for(i=0; i<maxV; i++) {
-			strcpy(viaturas[i].ID, "empty");
-			strcpy(viaturas[i].cor, "empty");
-			strcpy(viaturas[i].marca, "empty");
-			strcpy(viaturas[i].modelo, "empty");
-			strcpy(viaturas[i].tipo, "empty");
-			viaturas[i].mudancas = -1;
-			strcpy(viaturas[i].matricula, "emprty");
-		}
-
-		printf("Vehicle memory created\n");
-	} else {
-		int id = shmget(shmKeyV, 0, 0666);
-		viaturas = (Tviatura*) shmat(id, 0, 0);
-		exit_on_null(viaturas, "Failed to attach vehicle2");
-
-		printf("Attached to existing vehicle memory\n");
-	}
+void getShmU(){
+    int id=shmget(shmKeyU,(clientessize+1)* sizeof(Tcliente),0);
+    if(id<0)createShmU();
+    else {
+        clientes = shmat(id, 0, 0);
+        if (clientes == NULL)createShmU();
+    }
 }
-
+void createShmV(){
+    int id=shmget(shmKeyV,(viaturassize+1)* sizeof(Tviatura),IPC_CREAT | IPC_EXCL | 0666);
+    exit_on_error(id,"falha no shmget");
+    viaturas=shmat(id,0,0);
+    exit_on_null(viaturas,"falha no shmat");
+}
+void getShmV(){
+    //int size=sizeof(Tviatura);
+    //int sizelist=viaturassize;
+    int id=shmget(shmKeyV,(viaturassize+1)* sizeof(Tviatura),0);
+    if (id<0)createShmV();
+    else {
+        viaturas = shmat(id, 0, 0);
+        if (viaturas == NULL)createShmV();
+    }
+}
 void readMemory(){
-	free(viaturas);
-	free(clientes);
-	int idx=0;
-	viaturassize=0;
-	clientessize=0;
-	if(fopen("./utilizadores.dat", "r")!=NULL){
-		//ler utilizadores.dat para o clientes
-		FILE * fb=fopen("./utilizadores.dat", "r");
-		Tcliente cdat;
-		while(fread(&cdat, sizeof(cdat), 1,fb )>0) {
-			clientessize++;
-		}
-		fclose(fb);
-		clientes=(Tcliente*)malloc((clientessize) * ((sizeof(char*)*5) + (sizeof(char)*200)   + 2*sizeof(int)) );
-		fb=fopen("./utilizadores.dat", "r");
-		idx=0;
-		while(fread(&cdat, sizeof(cdat), 1,fb )>0) {
-			clientes[idx++] = cdat;
-		}
-		fclose(fb);
-	}else if(fopen("./utilizadores.txt","r")!=NULL){
-		printf("ficheiro encontrado\n");
-		//ler utilizadores.txt para o clientes
-		char linhau[MaxSize];
-		char* tokenu;
-		FILE * futxt=fopen("./utilizadores.txt","r");
-		while(fgets(linhau,MaxSize,futxt)!= NULL) {
-			clientessize++;
-		}
-		fclose(futxt);
-		clientes=(Tcliente*)malloc((clientessize) * ((sizeof(char*)*5) + (sizeof(char)*200)   + 2*sizeof(int)) );
-		futxt=fopen("./utilizadores.txt","r");
-		idx=0;
-		while(fgets(linhau,MaxSize,futxt)!= NULL) {
-			Tcliente c;
-			tokenu=strtok(linhau,";");
-			strcpy(c.nick, tokenu);
-			tokenu=strtok(NULL,";");
-			strcpy(c.pass, tokenu);
-			tokenu=strtok(NULL,";");
-			c.id = atoi(tokenu);
-			tokenu=strtok(NULL,";");
-			strcpy(c.nome, tokenu);
-			tokenu=strtok(NULL,";");
-			strcpy(c.email, tokenu);
-			tokenu=strtok(NULL,";");
-			strcpy(c.turma, tokenu);
-			tokenu=strtok(NULL,";");
-			c.saldo = atoi(tokenu);
-			clientes[idx++] = c;
-		}
-		fclose(futxt);
-	} else {
-		printf("Não forma encontrados ficheiros para utilizadores.\n");
-	}
-	if(fopen("./viaturas.dat", "r")!=NULL){
-		//ler   viaturas.dat para o viaturas
-		FILE * fb=fopen("./viaturas.dat", "r");
-		Tviatura vdat;
-		while(fread(&vdat, sizeof(vdat), 1,fb )>0) {
-			viaturassize++;
-		}
-		fclose(fb);
-		viaturas=(Tviatura*)malloc((viaturassize) * ((sizeof(char*)*6) + (sizeof(char) * 155) + sizeof(int)));
-		fb=fopen("./viaturas.dat", "r");
-		idx=0;
-		while(fread(&vdat, sizeof(vdat), 1,fb )>0) {
-			viaturas[idx++] = vdat;
-		}
-		fclose(fb);
-	}else if(fopen("./viaturas.txt", "r")!=NULL){
-		//ler viaturas.txt para o viaturas
-		char linhav[MaxSize];
-		char* tokenv;
-		FILE * futxt=fopen("./viaturas.txt","r");
-		while(fgets(linhav,MaxSize,futxt)!= NULL) {
-			viaturassize++;
-		}
-		fclose(futxt);
-		viaturas=(Tviatura*)malloc((viaturassize) * ((sizeof(char*)*6) + (sizeof(char) * 155) + sizeof(int)));
-		futxt=fopen("./viaturas.txt","r");
-		idx=0;
-		while(fgets(linhav,MaxSize,futxt)!= NULL) {
-			Tviatura v;
-			tokenv=strtok(linhav,";");
-			strcpy(v.ID, tokenv);
-			tokenv=strtok(NULL,";");
-			strcpy(v.cor, tokenv);
-			tokenv=strtok(NULL,";");
-			strcpy(v.marca,tokenv);
-			tokenv=strtok(NULL,";");
-			strcpy(v.modelo, tokenv);
-			tokenv=strtok(NULL,";");
-			strcpy(v.tipo, tokenv);
-			tokenv=strtok(NULL,";");
-			v.mudancas = atoi(tokenv);
-            tokenv=strtok(NULL,";");
-            tokenv[strlen(tokenv) - 1] = '\0';
-            strcpy(v.matricula, tokenv);
-            viaturas[idx++] = v;
+    int idx=0;
+    viaturassize=0;
+    clientessize=0;
+    if(fopen("./utilizadores.dat", "r")!=NULL){
+        //ler utilizadores.dat para o clientes
+        FILE * fb=fopen("./utilizadores.dat", "r");
+        Tcliente cdat;
+        while(fread(&cdat, sizeof(cdat), 1,fb )>0) {
+            clientessize++;
+        }
+        getShmU();
+        fclose(fb);
+        fb=fopen("./utilizadores.dat", "r");
+        idx=0;
+        USemDown();
+        while(fread(&cdat, sizeof(cdat), 1,fb )>0) {
+            clientes[idx++] = cdat;
+        }
+        idx++;
+        clientes[idx]=endUser;
+        USemUp();
+        fclose(fb);
+    }else if(fopen("./utilizadores.txt","r")!=NULL){
+        printf("ficheiro encontrado\n");
+        //ler utilizadores.txt para o clientes
+        char linhau[MaxSize];
+        char* tokenu;
+        FILE * futxt=fopen("./utilizadores.txt","r");
+        while(fgets(linhau,MaxSize,futxt)!= NULL) {
+            clientessize++;
         }
         fclose(futxt);
-    } else {
-      printf("Não foram encontrados ficheiros para viaturas.\n");
+        getShmU();
+        futxt=fopen("./utilizadores.txt","r");
+        idx=0;
+        USemDown();
+        while(fgets(linhau,MaxSize,futxt)!= NULL) {
+            Tcliente cl;
+            tokenu=strtok(linhau,";");
+            strcpy(cl.nick, tokenu);
+            tokenu=strtok(NULL,";");
+            strcpy(cl.pass, tokenu);
+            tokenu=strtok(NULL,";");
+            cl.id = atoi(tokenu);
+            tokenu=strtok(NULL,";");
+            strcpy(cl.nome, tokenu);
+            tokenu=strtok(NULL,";");
+            strcpy(cl.email, tokenu);
+            tokenu=strtok(NULL,";");
+            strcpy(cl.turma, tokenu);
+            tokenu=strtok(NULL,";");
+            cl.saldo = atoi(tokenu);
+            clientes[idx++] = cl;
+        }
+        idx++;
+        clientes[idx]=endUser;
+        USemUp();
+        fclose(futxt);
+    }
+    if(fopen("./viaturas.dat", "r")!=NULL){
+        //ler   viaturas.dat para o viaturas
+        FILE * fb=fopen("./viaturas.dat", "r");
+        Tviatura vdat;
+        while(fread(&vdat, sizeof(vdat), 1,fb )>0) {
+            viaturassize++;
+        }
+        fclose(fb);
+        getShmV();
+        fb=fopen("./viaturas.dat", "r");
+        idx=0;
+        VSemDown();
+        while(fread(&vdat, sizeof(vdat), 1,fb )>0) {
+            viaturas[idx].disponivel=0;
+            viaturas[idx] = vdat;
+            idx++;
+        }
+        idx++;
+        viaturas[idx]=endBike;
+        fclose(fb);
+        VSemUp();
+    }else if(fopen("./viaturas.txt", "r")!=NULL){
+        //ler viaturas.txt para o viaturas
+        char linhav[MaxSize];
+        char* tokenv;
+        FILE * futxt=fopen("./viaturas.txt","r");
+        while(fgets(linhav,MaxSize,futxt)!= NULL) {
+            viaturassize++;
+        }
+        fclose(futxt);
+        getShmV();
+        futxt=fopen("./viaturas.txt","r");
+        idx=0;
+        VSemDown();
+        while(fgets(linhav,MaxSize,futxt)!= NULL) {
+            Tviatura vi;
+            tokenv=strtok(linhav,";");
+            strcpy(vi.ID, tokenv);
+            tokenv=strtok(NULL,";");
+            strcpy(vi.cor, tokenv);
+            tokenv=strtok(NULL,";");
+            strcpy(vi.marca,tokenv);
+            tokenv=strtok(NULL,";");
+            strcpy(vi.modelo, tokenv);
+            tokenv=strtok(NULL,";");
+            strcpy(vi.tipo, tokenv);
+            tokenv=strtok(NULL,";");
+            vi.mudancas = atoi(tokenv);
+            tokenv=strtok(NULL,";");
+            strcpy(vi.matricula, tokenv);
+            vi.disponivel=0;
+            viaturas[idx++] = vi;
+        }
+        idx++;
+        viaturas[idx]=endBike;
+        VSemUp();
+        fclose(futxt);
     }
 }
 
 void printMem(){
-    Tcliente c;
     printf("Clientes: \n");
+    USemDown();
     for (int i=0;i<clientessize;i++){
-        c=clientes[i];
         printf("%s;%s;%d;%s;%s;%s;%d\n",c.nick,c.pass,c.id,c.nome,c.email,c.turma,c.saldo);
     }
+    USemUp();
     printf("total: %d\n",clientessize);
-    Tviatura v;
     printf("Viaturas: \n");
+    VSemDown();
     for (int i=0;i<viaturassize;i++){
-        v=viaturas[i];
-        printf("%s;%s;%s;%s;%s;%d;%s\n",v.ID,v.cor,v.marca,v.modelo,v.tipo,v.mudancas,v.matricula);
+        printf("%s;%s;%s;%s;%s;%d;%s\0\n",v.ID,v.cor,v.marca,v.modelo,v.tipo,v.mudancas,v.matricula);
     }
+    VSemUp();
     printf("total: %d\n",viaturassize);
 }
 
@@ -196,6 +205,7 @@ void changeUser(){
     int opcao=0;
     printf("Nickname do utilizador:\n");
     scanf("%s",nick);
+    USemDown();
     for (int (i) = 0; (i) < clientessize; ++(i)) {
         if(strcmp(clientes[i].nick,nick)==0){
             printf("%s encontrado!!\n",clientes[i].nick);
@@ -204,24 +214,30 @@ void changeUser(){
             if(opcao==1){
                 printf("Coloque a nova password\n");
                 scanf("%s",clientes[i].pass);
+                USemUp();
                 return;
             }else if(opcao==2){
                 printf("Coloque o novo saldo\n");
                 scanf("%d",&clientes[i].saldo);
+                USemUp();
                 return;
             }
+            USemUp();
             printf("Opcao Invalida");
+            return;
         }
     }
-    printf("Utilizador nao encontrado\n");
+    USemUp();
+    printf("Utilizador nao encontrado");
 }
 
+
 void changeBike(){
-    #define v viaturas[i]
     char ID[MaxSize];
     int option=0;
     printf("ID da viatura:\n");
     scanf("%s",ID);
+    VSemDown();
     for (int (i) = 0; (i) < viaturassize; ++(i)) {
         if(strcmp(viaturas[i].ID,ID)==0){
             printf("%s encontrado!!\n",v.ID);
@@ -230,67 +246,100 @@ void changeBike(){
             switch (option){
                 case 1:printf("Cor nova:\n");
                     scanf("%s",v.cor);
+                    VSemUp();
                     return;
                 case 2:printf("Marca nova:\n");
                     scanf("%s",v.marca);
+                    VSemUp();
                     return;
                 case 3:printf("Modelo novo:\n");
                     scanf("%s",v.modelo);
+                    VSemUp();
                     return;
                 case 4:printf("Tipo novo:\n");
                     scanf("%s",v.tipo);
+                    VSemUp();
                     return;
                 case 5:printf("Mudancas novas:\n");
                     scanf("%d",&v.mudancas);
+                    VSemUp();
                     return;
                 case 6:printf("Matricula nova:\n");
                     scanf("%s",v.matricula);
+                    VSemUp();
                     return;
                 default:
                     printf("Opcao invalida\n");
+                    VSemUp();
                     return;
             }
         }
     }
+    VSemUp();
     printf("Veiculo nao encontrado\n");
 }
 
 void saveMemToFile(){
     FILE * udat=fopen("./utilizadores.dat","w");
+    USemDown();
     for (int i = 0; i < clientessize ; ++i) {
-        fwrite(&clientes[i],sizeof(clientes[i]),1,udat);
+        fwrite(&c,sizeof(c),1,udat);
     }
     fclose(udat);
-    FILE * vdat=fopen("./viaturas.dat","w");
-    for (int i = 0; i < viaturassize ; ++i) {
-        fwrite(&viaturas[i],sizeof(viaturas[i]),1,vdat);
-    }
-    fclose(vdat);
+
     FILE * utxt=fopen("./utilizadores.txt","w");
-    #define c clientes[i]
     for (int i = 0; i < clientessize ; ++i) {
         fprintf(utxt,"%s;%s;%d;%s;%s;%s;%d\n",c.nick,c.pass,c.id,c.nome,c.email,c.turma,c.saldo);
     }
+    USemUp();
     fclose(utxt);
-    FILE * vtxt=fopen("./viaturas.txt","w");
-    #define v viaturas[i]
+
+    FILE * vdat=fopen("./viaturas.dat","w");
+    VSemDown();
     for (int i = 0; i < viaturassize ; ++i) {
-        fprintf(vtxt,"%s;%s;%s;%s;%s;%d;%s\n",v.ID,v.cor,v.marca,v.modelo,v.tipo,v.mudancas,v.matricula);
+        fwrite(&v,sizeof(v),1,vdat);
     }
+    fclose(vdat);
+
+    FILE * vtxt=fopen("./viaturas.txt","w");
+    for (int i = 0; i < viaturassize ; ++i) {
+        fprintf(vtxt,"%s;%s;%s;%s;%s;%d;%s\0\n",v.ID,v.cor,v.marca,v.modelo,v.tipo,v.mudancas,v.matricula);
+    }
+    VSemUp();
     fclose(vtxt);
 }
+
+int busyBikes(){
+    int count;
+    VSemDown();
+    for (int i = 0; i < viaturassize; i++) {
+        if (v.disponivel==1){
+            printf("%s;%s;%s;%s;%s;%d;%s\0\n",v.ID,v.cor,v.marca,v.modelo,v.tipo,v.mudancas,v.matricula);
+            count++;
+        }
+    }
+    VSemUp();
+    return count;
+}
+int avaliableBikes(){
+    int count;
+    for (int i = 0; i < viaturassize; i++) {
+        if (v.disponivel==0){
+            printf("%s;%s;%s;%s;%s;%d;%s\0\n",v.ID,v.cor,v.marca,v.modelo,v.tipo,v.mudancas,v.matricula);
+            count++;
+        }
+    }
+    return count;
+}
 int main(){
-
-	createShmU();
-	createShmV();
-
     int option=-1;
+    setupSems();
     while(option!=0){
         printf("Escolha uma opcao:\n1.Ler dados para a memoria\n2.Imprimir memoria\n3.Alterar utilizador\n"
-                       "4.Alterar viatura\n5.Guardar dados\n0.Sair\n");
+                       "4.Alterar viatura\n5.Guardar dados\n6.Viaturas ocupadas\n7.Viaturas disponiveis\n0.Sair\n");
         scanf("%d",&option);
         switch (option){
-            case 0:free(viaturas);free(clientes);
+            case 0:
                 break;
             case 1:readMemory();
                 break;
@@ -301,6 +350,10 @@ int main(){
             case 4:changeBike();
                 break;
             case 5:saveMemToFile();
+                break;
+            case 6:busyBikes();
+                break;
+            case 7:avaliableBikes();
                 break;
             default:
                 printf("Opcao invalida");
