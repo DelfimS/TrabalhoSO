@@ -5,6 +5,7 @@
 #include <time.h>
 #include <sys/wait.h>
 #include <string.h>
+#include <stdbool.h>
 #include "defines.h"
 #include "definesM.h"
 #include "structs.h"
@@ -27,6 +28,10 @@ Taluguer* alugueres;
 void addReserva(char id[20], int id1);
 
 void setDisponivel(int i, char idviatura[100]);
+
+int existsReserva(int id, char id1[20]);
+
+void addAluguer(char id[20], int id1);
 
 void iniciar_listagens(){
     Treserva inicialR={"empty",-1,-1};
@@ -216,9 +221,28 @@ int main(){
 				} else 
 					strcpy(msc.dados.texto, "Saldo insuficiente");
 				USemUp();
-
 			} else if(strcmp(mcs.dados.operacao, "Alugar") == 0) {
-
+                i=0;
+                id = atoi(mcs.dados.info2);
+                USemDown();
+                while(clientes[i].id != id)
+                    i++;
+                if(clientes[i].saldo > 0) {
+                    i=0;
+                    VSemDown();
+                    while(strcmp(mcs.dados.info1, viaturas[i].ID) != 0 || viaturas[i].mudancas != -1)
+                        i++;
+                    if(viaturas[i].mudancas == -1)
+                        strcpy(msc.dados.texto, "ID inválido");
+                        else if (viaturas[i].disponivel!=0||existsReserva(id,viaturas[i].ID)){
+                        viaturas[i].disponivel = id;
+                        addAluguer(viaturas[i].ID,id);
+                        strcpy(msc.dados.texto, "Viatura alugada");
+                        }else{strcpy(msc.dados.texto,"viatura ocupada");}
+                    VSemUp();
+                } else
+                    strcpy(msc.dados.texto, "Saldo insuficiente");
+                USemUp();
 			} else if(strcmp(mcs.dados.operacao, "Finalizar") == 0) {
                 id=atoi(mcs.dados.info2);
                 char idviatura[100];
@@ -274,6 +298,26 @@ int main(){
 		}
 	}
 	return 0;
+}
+
+void addAluguer(char id[20], int id1) {
+    for (int i = 0; i < listssize; i++) {
+        if (alugueres[i].clienteID==-1){
+            strcpy(alugueres[i].viaturaID,id);
+            alugueres[i].clienteID=id1;
+            alugueres[i].time=time(NULL);
+            break;
+        }
+    }
+}
+
+int existsReserva(int id, char id1[20]) {
+    for (int i = 0; i < listssize; i++) {
+        if (strcmp(reservas[i].viaturaID,id1)==0&&id==reservas[i].clienteID){
+            return 1;
+        }
+    }
+    return 0;
 }
 
 void setDisponivel(int i, char idviatura[100]) {

@@ -73,8 +73,8 @@
       <file leaf-file-name="servidor.c" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/servidor.c">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="617">
-              <caret line="264" column="12" lean-forward="false" selection-start-line="264" selection-start-column="12" selection-end-line="264" selection-end-column="12" />
+            <state relative-caret-position="1765">
+              <caret line="307" column="21" lean-forward="false" selection-start-line="307" selection-start-column="21" selection-end-line="307" selection-end-column="21" />
               <folding>
                 <element signature="e#0#18#0" expanded="true" />
               </folding>
@@ -300,11 +300,18 @@
       <option name="project" value="LOCAL" />
       <updated>1513363868554</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="logout now does not send any message to client">
+      <created>1513364221390</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1513364221390</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="44837000" />
+    <option name="totallyTimeSpent" value="46362000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="67" y="25" width="1853" height="950" extended-state="6" />
@@ -376,7 +383,8 @@
     <MESSAGE value="no magical numbers" />
     <MESSAGE value="added reservas and alugueres lists" />
     <MESSAGE value="added funcion setDisponivel" />
-    <option name="LAST_COMMIT_MESSAGE" value="added funcion setDisponivel" />
+    <MESSAGE value="logout now does not send any message to client" />
+    <option name="LAST_COMMIT_MESSAGE" value="logout now does not send any message to client" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -794,8 +802,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/servidor.c">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="617">
-          <caret line="264" column="12" lean-forward="false" selection-start-line="264" selection-start-column="12" selection-end-line="264" selection-end-column="12" />
+        <state relative-caret-position="1765">
+          <caret line="307" column="21" lean-forward="false" selection-start-line="307" selection-start-column="21" selection-end-line="307" selection-end-column="21" />
           <folding>
             <element signature="e#0#18#0" expanded="true" />
           </folding>
