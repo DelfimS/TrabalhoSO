@@ -26,7 +26,7 @@ void tratar_sinal(int sinal){
 
 int main(){
 	
-	int idM = msgget(0x77689, 0666);
+	int idM = msgget(msgKey, 0666);
 	exit_on_error(idM, "Erro no msgget");
 
 	printf("PID: %d\n", getpid());
