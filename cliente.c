@@ -133,6 +133,16 @@ int main(){
 					break;
 				case 4:
 					strcpy(mcs.dados.operacao, "Finalizar");
+
+                    printf("Reserva a cancelar (ID):");
+                    fgets(mcs.dados.info1, 20, stdin);
+
+                    status = msgsnd(idM, &mcs, sizeof(mcs.dados), 0);
+                    exit_on_error(status, "Error or request");
+
+                    status = msgrcv(idM, &msc, sizeof(msc.dados), getpid(), 0);
+                    exit_on_error(status, "Error on receiving");
+
 					break;
 				case 5:
 					strcpy(mcs.dados.operacao, "Carregar");

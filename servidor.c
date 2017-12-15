@@ -21,11 +21,12 @@ int clientesSemId;
 Tviatura* viaturas;
 int viaturasSemId;
 Treserva* reservas;
-int reservassize;
+int listssize;
 Taluguer* alugueres;
-int alugueressize;
 
 void addReserva(char id[20], int id1);
+
+void setDisponivel(int i, char idviatura[100]);
 
 void iniciar_listagens(){
     Treserva inicialR={"empty",-1,-1};
@@ -42,8 +43,7 @@ void iniciar_listagens(){
     }
     reservas= listr;
     alugueres=lista;
-    reservassize=size;
-    alugueressize=size;
+    listssize=size;
 };
 
 void setup_semaforos(){
@@ -219,9 +219,23 @@ int main(){
 			} else if(strcmp(mcs.dados.operacao, "Alugar") == 0) {
 
 			} else if(strcmp(mcs.dados.operacao, "Finalizar") == 0) {
-                for (int j = 0; j < alugueressize; j++) {
-                    if (alugueres[j].clienteID==id){
-
+                id=mcs.dados.info2;
+                char idviatura[100];
+                strcpy(idviatura,mcs.dados.info1);
+                for (int j = 0; j < listssize; j++) {
+                    if ((alugueres[j].clienteID==id)&&(strcmp(idviatura,alugueres[i].viaturaID)==0)){
+                        strcpy(alugueres[j].viaturaID,"empty");
+                        alugueres[j].clienteID=-1;
+                        alugueres[j].time=-1;
+                        setDisponivel(0,idviatura);
+                        break;
+                    }
+                    if ((reservas[j].clienteID==id)&&(strcmp(idviatura,reservas[i].viaturaID)==0)){
+                        strcpy(reservas[j].viaturaID,"empty");
+                        reservas[j].clienteID=-1;
+                        reservas[j].time=-1;
+                        setDisponivel(0,idviatura);
+                        break;
                     }
                 }
 			} else if(strcmp(mcs.dados.operacao, "Carregar") == 0) {
@@ -259,8 +273,18 @@ int main(){
 	return 0;
 }
 
+void setDisponivel(int i, char idviatura[100]) {
+    VSemDown();
+    for (int j = 0; j < listssize; j++) {
+        if(strcmp(viaturas[i].ID,idviatura)==0){
+            viaturas[i].disponivel=i;
+        }
+    }
+    VSemUp();
+}
+
 void addReserva(char id[20], int id1) {
-    for (int i = 0; i < reservassize; i++) {
+    for (int i = 0; i < listssize; i++) {
         if (reservas[i].clienteID==-1){
             strcpy(reservas[i].viaturaID,id);
             reservas[i].clienteID=id1;
