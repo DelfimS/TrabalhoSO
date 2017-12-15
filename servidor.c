@@ -216,10 +216,11 @@ int main(){
 				} else 
 					strcpy(msc.dados.texto, "Saldo insuficiente");
 				USemUp();
+
 			} else if(strcmp(mcs.dados.operacao, "Alugar") == 0) {
 
 			} else if(strcmp(mcs.dados.operacao, "Finalizar") == 0) {
-                id=mcs.dados.info2;
+                id=atoi(mcs.dados.info2);
                 char idviatura[100];
                 strcpy(idviatura,mcs.dados.info1);
                 for (int j = 0; j < listssize; j++) {
@@ -257,17 +258,19 @@ int main(){
 					i++;
 				msc.dados.valor1 = clientes[i].saldo;
 				USemUp();
-			} else if(strcmp(mcs.dados.operacao, "Logout") == 0) {
-				i = 0;
-				id = atoi(mcs.dados.info2);
-				USemDown();
-				while(clientes[i].id != id)
-					i++;
-				clientes[i].online = 0;
-				USemUp();
 			}
 			status = msgsnd(idM, &msc, sizeof(msc.dados), 0);
 			exit_on_error(status, "error on sending");
+
+            if(strcmp(mcs.dados.operacao, "Logout") == 0) {
+                i = 0;
+                id = atoi(mcs.dados.info2);
+                USemDown();
+                while(clientes[i].id != id)
+                    i++;
+                clientes[i].online = 0;
+                USemUp();
+            }
 		}
 	}
 	return 0;
