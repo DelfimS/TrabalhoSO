@@ -89,7 +89,19 @@
 		<Unit filename="/home/delfim/CLionProjects/TrabalhoSO/admin.c">
 			<Option target="TrabalhoSO"/>
 		</Unit>
+		<Unit filename="/home/delfim/CLionProjects/TrabalhoSO/cliente.c">
+			<Option target="TrabalhoSO"/>
+		</Unit>
 		<Unit filename="/home/delfim/CLionProjects/TrabalhoSO/defines.h">
+			<Option target="TrabalhoSO"/>
+		</Unit>
+		<Unit filename="/home/delfim/CLionProjects/TrabalhoSO/definesM.h">
+			<Option target="TrabalhoSO"/>
+		</Unit>
+		<Unit filename="/home/delfim/CLionProjects/TrabalhoSO/msgstruct.h">
+			<Option target="TrabalhoSO"/>
+		</Unit>
+		<Unit filename="/home/delfim/CLionProjects/TrabalhoSO/servidor.c">
 			<Option target="TrabalhoSO"/>
 		</Unit>
 		<Unit filename="/home/delfim/CLionProjects/TrabalhoSO/structs.h">

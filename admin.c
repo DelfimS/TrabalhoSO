@@ -16,7 +16,8 @@ int viaturasSemId;
 Tcliente* clientes;
 int clientessize=0;
 int clientesSemId;
-
+Tcliente endUser={"empty","empty",-1,"empty","empty","empty",-1,-1};
+Tviatura endBike={"empty","empty","empty","empty","empty",-1,"empty",-1};
 
 void setupSems(){
     viaturasSemId =semget(shmKeyV,1,IPC_CREAT|IPC_EXCL|0666);
@@ -80,7 +81,9 @@ void readMemory(){
         idx=0;
         USemDown();
         while(fread(&cdat, sizeof(cdat), 1,fb )>0) {
-            clientes[idx++] = cdat;
+            clientes[idx] = cdat;
+            clientes[idx].online = 0;
+            idx++;
         }
         idx++;
         clientes[idx]=endUser;
@@ -116,6 +119,7 @@ void readMemory(){
             strcpy(cl.turma, tokenu);
             tokenu=strtok(NULL,";");
             cl.saldo = atoi(tokenu);
+            cl.online=0;
             clientes[idx++] = cl;
         }
         idx++;

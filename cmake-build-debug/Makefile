@@ -150,6 +150,60 @@ admin.c.s:
 	$(MAKE) -f CMakeFiles/TrabalhoSO.dir/build.make CMakeFiles/TrabalhoSO.dir/admin.c.s
 .PHONY : admin.c.s
 
+cliente.o: cliente.c.o
+
+.PHONY : cliente.o
+
+# target to build an object file
+cliente.c.o:
+	$(MAKE) -f CMakeFiles/TrabalhoSO.dir/build.make CMakeFiles/TrabalhoSO.dir/cliente.c.o
+.PHONY : cliente.c.o
+
+cliente.i: cliente.c.i
+
+.PHONY : cliente.i
+
+# target to preprocess a source file
+cliente.c.i:
+	$(MAKE) -f CMakeFiles/TrabalhoSO.dir/build.make CMakeFiles/TrabalhoSO.dir/cliente.c.i
+.PHONY : cliente.c.i
+
+cliente.s: cliente.c.s
+
+.PHONY : cliente.s
+
+# target to generate assembly for a file
+cliente.c.s:
+	$(MAKE) -f CMakeFiles/TrabalhoSO.dir/build.make CMakeFiles/TrabalhoSO.dir/cliente.c.s
+.PHONY : cliente.c.s
+
+servidor.o: servidor.c.o
+
+.PHONY : servidor.o
+
+# target to build an object file
+servidor.c.o:
+	$(MAKE) -f CMakeFiles/TrabalhoSO.dir/build.make CMakeFiles/TrabalhoSO.dir/servidor.c.o
+.PHONY : servidor.c.o
+
+servidor.i: servidor.c.i
+
+.PHONY : servidor.i
+
+# target to preprocess a source file
+servidor.c.i:
+	$(MAKE) -f CMakeFiles/TrabalhoSO.dir/build.make CMakeFiles/TrabalhoSO.dir/servidor.c.i
+.PHONY : servidor.c.i
+
+servidor.s: servidor.c.s
+
+.PHONY : servidor.s
+
+# target to generate assembly for a file
+servidor.c.s:
+	$(MAKE) -f CMakeFiles/TrabalhoSO.dir/build.make CMakeFiles/TrabalhoSO.dir/servidor.c.s
+.PHONY : servidor.c.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -162,6 +216,12 @@ help:
 	@echo "... admin.o"
 	@echo "... admin.i"
 	@echo "... admin.s"
+	@echo "... cliente.o"
+	@echo "... cliente.i"
+	@echo "... cliente.s"
+	@echo "... servidor.o"
+	@echo "... servidor.i"
+	@echo "... servidor.s"
 .PHONY : help
 
 

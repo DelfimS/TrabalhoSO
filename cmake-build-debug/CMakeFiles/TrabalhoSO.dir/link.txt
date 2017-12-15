@@ -1,1 +1,1 @@
-/usr/bin/cc -g   CMakeFiles/TrabalhoSO.dir/admin.c.o  -o TrabalhoSO 
+/usr/bin/cc -g   CMakeFiles/TrabalhoSO.dir/admin.c.o CMakeFiles/TrabalhoSO.dir/cliente.c.o CMakeFiles/TrabalhoSO.dir/servidor.c.o  -o TrabalhoSO 

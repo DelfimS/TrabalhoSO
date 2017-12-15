@@ -17,9 +17,45 @@ int fiscal;
 int idM;
 
 Tcliente* clientes;
+int clientesSemId;
 Tviatura* viaturas;
+int viaturasSemId;
 Treserva* reservas;
+int reservassize;
 Taluguer* alugueres;
+int alugueressize;
+
+void addReserva(char id[20], int id1);
+
+void iniciar_listagens(){
+    Treserva inicialR={"empty",-1,-1};
+    Taluguer inicialA={"empty",-1,-1};
+    int size=0;
+    for (int i = 0; viaturas[i].mudancas!=-1; i++) {
+        size++;
+    }
+    Treserva listr[size];
+    Taluguer lista[size];
+    for (int j = 0; j < size; ++j) {
+        listr[j]=inicialR;
+        lista[j]=inicialA;
+    }
+    reservas= listr;
+    alugueres=lista;
+    reservassize=size;
+    alugueressize=size;
+};
+
+void setup_semaforos(){
+	viaturasSemId=semget(shmKeyV,1,0);
+	exit_on_error(viaturasSemId, "Falha no semget viaturas");
+	clientesSemId=semget(shmKeyU,1,0);
+	exit_on_error(viaturasSemId, "Falha no semget clientes");
+}
+void USemUp(){int status=semop(clientesSemId,&UP,1);exit_on_error(status,"erro no UP")};
+void USemDown(){int status=semop(clientesSemId,&DOWN,1);exit_on_error(status,"erro no DOWN")};
+void VSemUp(){int status=semop(viaturasSemId,&UP,1);exit_on_error(status,"erro no UP")};
+void VSemDown(){int status=semop(viaturasSemId,&DOWN,1);exit_on_error(status,"erro no DOWN")};
 
 void associar_memorias() {
 
@@ -90,6 +126,8 @@ void trata_sinal(int sinal){
 
 int main(){
 	associar_memorias();
+	setup_semaforos();
+	iniciar_listagens();
 
 	idM = msgget(msgKey, IPC_CREAT | IPC_EXCL | 0666);
 	exit_on_error(idM, "Erro no msgget");
@@ -126,7 +164,8 @@ int main(){
 			msc.tipo = mcs.dados.myid;
 			if(strcmp(mcs.dados.operacao, "Login") == 0) {
 				i = 0;
-				msc.dados.valor1 = -1; 
+				msc.dados.valor1 = -1;
+				USemDown();
 				while(clientes[i].id != -1) {
 					if(strcmp(clientes[i].nick, mcs.dados.info1) == 0)
 						if(strcmp(clientes[i].pass, mcs.dados.info2) == 0) {
@@ -137,10 +176,12 @@ int main(){
 						}
 					i++;
 				}
+				USemUp();
 			} else if(strcmp(mcs.dados.operacao, "Viaturas") == 0) {
 				i = 0;
+				VSemDown();
 				while(viaturas[i].mudancas != -1) {
-					if(viaturas[i].disponivel != -1) {
+					if(viaturas[i].disponivel == 0) {
 						strcpy(msc.dados.texto, viaturas[i].ID);
 						strcat(msc.dados.texto, " - ");
 						strcat(msc.dados.texto, viaturas[i].cor);
@@ -151,50 +192,65 @@ int main(){
 					}
 					i++;
 				}
+				VSemUp();
 				strcpy(msc.dados.texto, "done");								
 			} else if(strcmp(mcs.dados.operacao, "Reservar") == 0) {
 				i=0;
 				id = atoi(mcs.dados.info2);
+				USemDown();
 				while(clientes[i].id != id)
 					i++;
 				if(clientes[i].saldo > 0) {
 					i=0;
+					VSemDown();
 					while(strcmp(mcs.dados.info1, viaturas[i].ID) != 0 || viaturas[i].mudancas != -1)
 						i++;
 					if(viaturas[i].mudancas == -1)
 						strcpy(msc.dados.texto, "ID inválido");
 					else {
 						viaturas[i].disponivel = id;
+                        addReserva(viaturas[i].ID,id);
 						strcpy(msc.dados.texto, "Viatura reservada");
 					}
+					VSemUp();
 				} else 
 					strcpy(msc.dados.texto, "Saldo insuficiente");
+				USemUp();
 			} else if(strcmp(mcs.dados.operacao, "Alugar") == 0) {
-	
-			} else if(strcmp(mcs.dados.operacao, "Finalizar") == 0) {
 
+			} else if(strcmp(mcs.dados.operacao, "Finalizar") == 0) {
+                for (int j = 0; j < alugueressize; j++) {
+                    if (alugueres[j].clienteID==id){
+
+                    }
+                }
 			} else if(strcmp(mcs.dados.operacao, "Carregar") == 0) {
 				i = 0;
 				int adicionar = atoi(mcs.dados.info1);
 				id = atoi(mcs.dados.info2);
+				USemDown();
 				while(clientes[i].id != id)
 					i++;
 				msc.dados.valor1 = clientes[i].saldo;
 				clientes[i].saldo += adicionar;
 				msc.dados.valor2 = clientes[i].saldo;
+				USemUp();
 			} else if(strcmp(mcs.dados.operacao, "Saldo") == 0) {
 				i = 0;
 				id = atoi(mcs.dados.info2);
+				USemDown();
 				while(clientes[i].id != id)
 					i++;
 				msc.dados.valor1 = clientes[i].saldo;
+				USemUp();
 			} else if(strcmp(mcs.dados.operacao, "Logout") == 0) {
 				i = 0;
 				id = atoi(mcs.dados.info2);
+				USemDown();
 				while(clientes[i].id != id)
 					i++;
-				clientes[i].online = -1;
-				break;
+				clientes[i].online = 0;
+				USemUp();
 			}
 			status = msgsnd(idM, &msc, sizeof(msc.dados), 0);
 			exit_on_error(status, "error on sending");
@@ -202,3 +258,15 @@ int main(){
 	}
 	return 0;
 }
+
+void addReserva(char id[20], int id1) {
+    for (int i = 0; i < reservassize; i++) {
+        if (reservas[i].clienteID==-1){
+            strcpy(reservas[i].viaturaID,id);
+            reservas[i].clienteID=id1;
+            reservas[i].time=time(NULL);
+            break;
+        }
+    }
+}
+

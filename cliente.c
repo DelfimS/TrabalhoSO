@@ -56,10 +56,10 @@ int main(){
 				mcs.dados.info2[strlen(mcs.dados.info2) - 1] = 0;
 
 				status = msgsnd(idM, &mcs, sizeof(mcs.dados), 0);
-				exit_on_error(status, "error on login");	
+				exit_on_error(status, "error on login, enviar pedido");
 
 				status = msgrcv(idM, &msc, sizeof(msc.dados), getpid(), 0);
-				exit_on_error(status, "error on login2");
+				exit_on_error(status, "error on login, receber pedido");
 		
 				clientID = msc.dados.valor1;
 				if(clientID == -1)

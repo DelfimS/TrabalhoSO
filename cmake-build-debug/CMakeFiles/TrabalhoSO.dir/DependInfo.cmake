@@ -5,6 +5,8 @@ set(CMAKE_DEPENDS_LANGUAGES
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_C
   "/home/delfim/CLionProjects/TrabalhoSO/admin.c" "/home/delfim/CLionProjects/TrabalhoSO/cmake-build-debug/CMakeFiles/TrabalhoSO.dir/admin.c.o"
+  "/home/delfim/CLionProjects/TrabalhoSO/cliente.c" "/home/delfim/CLionProjects/TrabalhoSO/cmake-build-debug/CMakeFiles/TrabalhoSO.dir/cliente.c.o"
+  "/home/delfim/CLionProjects/TrabalhoSO/servidor.c" "/home/delfim/CLionProjects/TrabalhoSO/cmake-build-debug/CMakeFiles/TrabalhoSO.dir/servidor.c.o"
   )
 set(CMAKE_C_COMPILER_ID "GNU")
 
