@@ -13,15 +13,6 @@
   <component name="ChangeListManager">
     <list default="true" id="5b30dbae-4357-42fc-8f3a-e41d4ff14b33" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Makefile2" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Makefile2" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/TrabalhoSO.dir/DependInfo.cmake" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/TrabalhoSO.dir/DependInfo.cmake" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/TrabalhoSO.dir/build.make" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/TrabalhoSO.dir/build.make" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/TrabalhoSO.dir/cmake_clean.cmake" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/TrabalhoSO.dir/cmake_clean.cmake" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/TrabalhoSO.dir/link.txt" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/TrabalhoSO.dir/link.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/TrabalhoSO.dir/progress.make" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/TrabalhoSO.dir/progress.make" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/progress.marks" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/progress.marks" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cmake-build-debug/Makefile" afterPath="$PROJECT_DIR$/cmake-build-debug/Makefile" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cmake-build-debug/TrabalhoSO.cbp" afterPath="$PROJECT_DIR$/cmake-build-debug/TrabalhoSO.cbp" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/servidor.c" afterPath="$PROJECT_DIR$/servidor.c" />
     </list>
     <ignored path="$PROJECT_DIR$/cmake-build-debug/" />
@@ -37,8 +28,8 @@
       <file leaf-file-name="admin.c" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/admin.c">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="270">
-              <caret line="15" column="10" lean-forward="false" selection-start-line="15" selection-start-column="10" selection-end-line="15" selection-end-column="10" />
+            <state relative-caret-position="396">
+              <caret line="25" column="44" lean-forward="true" selection-start-line="22" selection-start-column="4" selection-end-line="25" selection-end-column="44" />
               <folding>
                 <element signature="e#42#60#0" expanded="true" />
               </folding>
@@ -49,7 +40,7 @@
       <file leaf-file-name="cliente.c" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/cliente.c">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="378">
+            <state relative-caret-position="2574">
               <caret line="143" column="64" lean-forward="false" selection-start-line="143" selection-start-column="64" selection-end-line="143" selection-end-column="64" />
               <folding>
                 <element signature="e#0#18#0" expanded="true" />
@@ -73,8 +64,8 @@
       <file leaf-file-name="servidor.c" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/servidor.c">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1765">
-              <caret line="307" column="21" lean-forward="false" selection-start-line="307" selection-start-column="21" selection-end-line="307" selection-end-column="21" />
+            <state relative-caret-position="1571">
+              <caret line="383" column="34" lean-forward="false" selection-start-line="383" selection-start-column="34" selection-end-line="383" selection-end-column="34" />
               <folding>
                 <element signature="e#0#18#0" expanded="true" />
               </folding>
@@ -307,11 +298,18 @@
       <option name="project" value="LOCAL" />
       <updated>1513364221390</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="Added alugar,reservar and finalizar functions">
+      <created>1513371346701</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1513371346701</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="46362000" />
+    <option name="totallyTimeSpent" value="51561000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="67" y="25" width="1853" height="950" extended-state="6" />
@@ -384,7 +382,8 @@
     <MESSAGE value="added reservas and alugueres lists" />
     <MESSAGE value="added funcion setDisponivel" />
     <MESSAGE value="logout now does not send any message to client" />
-    <option name="LAST_COMMIT_MESSAGE" value="logout now does not send any message to client" />
+    <MESSAGE value="Added alugar,reservar and finalizar functions" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added alugar,reservar and finalizar functions" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -726,6 +725,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="702">
           <caret line="39" column="7" lean-forward="false" selection-start-line="39" selection-start-column="7" selection-end-line="39" selection-end-column="7" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -736,13 +736,27 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/defines.h">
+    <entry file="file://$PROJECT_DIR$/CMakeLists.txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="54">
-          <caret line="3" column="22" lean-forward="false" selection-start-line="3" selection-start-column="22" selection-end-line="3" selection-end-column="22" />
-          <folding>
-            <element signature="e#164#184#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="90">
+          <caret line="5" column="78" lean-forward="false" selection-start-line="5" selection-start-column="78" selection-end-line="5" selection-end-column="78" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/structs.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="450">
+          <caret line="25" column="20" lean-forward="false" selection-start-line="25" selection-start-column="20" selection-end-line="25" selection-end-column="20" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/msgstruct.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -756,43 +770,19 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/msgstruct.h">
+    <entry file="file://$PROJECT_DIR$/defines.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/CMakeLists.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="5" column="78" lean-forward="false" selection-start-line="5" selection-start-column="78" selection-end-line="5" selection-end-column="78" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/admin.c">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="15" column="10" lean-forward="false" selection-start-line="15" selection-start-column="10" selection-end-line="15" selection-end-column="10" />
+        <state relative-caret-position="54">
+          <caret line="3" column="22" lean-forward="false" selection-start-line="3" selection-start-column="22" selection-end-line="3" selection-end-column="22" />
           <folding>
-            <element signature="e#42#60#0" expanded="true" />
+            <element signature="e#164#184#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/structs.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="450">
-          <caret line="25" column="20" lean-forward="false" selection-start-line="25" selection-start-column="20" selection-end-line="25" selection-end-column="20" />
-          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/cliente.c">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="378">
+        <state relative-caret-position="2574">
           <caret line="143" column="64" lean-forward="false" selection-start-line="143" selection-start-column="64" selection-end-line="143" selection-end-column="64" />
           <folding>
             <element signature="e#0#18#0" expanded="true" />
@@ -800,10 +790,20 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/admin.c">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="396">
+          <caret line="25" column="44" lean-forward="true" selection-start-line="22" selection-start-column="4" selection-end-line="25" selection-end-column="44" />
+          <folding>
+            <element signature="e#42#60#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/servidor.c">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1765">
-          <caret line="307" column="21" lean-forward="false" selection-start-line="307" selection-start-column="21" selection-end-line="307" selection-end-column="21" />
+        <state relative-caret-position="1571">
+          <caret line="383" column="34" lean-forward="false" selection-start-line="383" selection-start-column="34" selection-end-line="383" selection-end-column="34" />
           <folding>
             <element signature="e#0#18#0" expanded="true" />
           </folding>
