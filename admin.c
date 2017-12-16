@@ -34,7 +34,80 @@ void USemDown(){int status=semop(clientesSemId,&DOWN,1);exit_on_error(status,"er
 void VSemUp(){int status=semop(viaturasSemId,&UP,1);exit_on_error(status,"erro no UP")};
 void VSemDown(){int status=semop(viaturasSemId,&DOWN,1);exit_on_error(status,"erro no DOWN")};
 
+void calcSize() {
+	clientessize = 0;
+	viaturassize = 0;
+	if(fopen("./utilizadores.dat", "r") != NULL) {
+		FILE * f = fopen("./utilizadores.dat", "r");
+		Tcliente cdat;
+		while(fread(&cdat, sizeof(cdat), 1, f) > 0)
+			clientessize++;
+		fclose(f);
+	} else if(fopen("./utilizadores.txt", "r") != NULL) {
+		char linha[MaxSize];
+		FILE * f = fopen("./utilizadores.txt", "r");
+		while(fgets(linha, MaxSize, f) != NULL)
+			clientessize++;
+		fclose(f);
+	} else 
+		printf("No client file\n");
+
+	if(fopen("./viaturas.dat", "r") != NULL) {
+		FILE * f = fopen("./viaturas.dat", "r");
+		Tviatura vdat;
+		while(fread(&vdat, sizeof(vdat), 1, f) > 0)
+			viaturassize++;
+		fclose(f);
+	} else if(fopen("./viaturas.txt", "r") != NULL) {
+		char linha[MaxSize];
+		FILE * f = fopen("./viaturas.txt", "r");
+		while(fgets(linha, MaxSize, f) != NULL)
+			viaturassize++;
+		fclose(f);
+	} else
+		printf("No bike file\n");
+}
+
+void setupshm() {
+	calcSize();
+	
+	int cshm = shmget(shmKeyU, (clientessize+1) * sizeof(Tcliente), IPC_CREAT | IPC_EXCL | 0666);
+
+	if(cshm < 0){
+		cshm = shmget(shmKeyU, 0, 0);
+		exit_on_error(cshm, "cshm error");
+
+		clientes = (Tcliente*) shmat(cshm, 0, 0);
+		exit_on_null(clientes, "c shmat error");
+
+		clientessize = 0;
+		while(clientes[clientessize].id != -1)
+			clientessize++;
+	} else {
+		clientes = (Tcliente*) shmat(cshm, 0, 0);
+		exit_on_null(clientes, "c shmat error");
+	}
+
+	int vshm = shmget(shmKeyV, (viaturassize+1) * sizeof(Tviatura), IPC_CREAT | IPC_EXCL | 0666);
+		
+	if(vshm < 0){
+		vshm = shmget(shmKeyV, 0, 0);
+		exit_on_error(vshm, "vshm error");
+
+		viaturas = (Tviatura*) shmat(vshm, 0, 0);
+		exit_on_null(viaturas, "v shmat error");
+
+		viaturassize = 0;
+		while(viaturas[viaturassize].mudancas != -1)
+			viaturassize++;
+	} else {
+		viaturas = (Tviatura*) shmat(vshm, 0, 0);
+		exit_on_null(viaturas, "v shmat error");
+	}
+}
+
 void createShmU(){
+	calcSize();
     int id=shmget(shmKeyU,(clientessize+1)* sizeof(Tcliente),IPC_CREAT | IPC_EXCL | 0666);
     exit_on_error(id,"falha no shmget");
     clientes=shmat(id,0,0);
@@ -46,22 +119,32 @@ void getShmU(){
     else {
         clientes = shmat(id, 0, 0);
         if (clientes == NULL)createShmU();
+
+		clientessize = 0;
+		while(clientes[clientessize].id != -1)
+			clientessize++;
     }
 }
 void createShmV(){
+	calcSize();
     int id=shmget(shmKeyV,(viaturassize+1)* sizeof(Tviatura),IPC_CREAT | IPC_EXCL | 0666);
     exit_on_error(id,"falha no shmget");
     viaturas=shmat(id,0,0);
     exit_on_null(viaturas,"falha no shmat");
 }
 void getShmV(){
-    int id=shmget(shmKeyV,(viaturassize+1)* sizeof(Tviatura),0);
+    int id=shmget(shmKeyV,0,0);
     if (id<0)createShmV();
     else {
         viaturas = shmat(id, 0, 0);
         if (viaturas == NULL)createShmV();
+
+		viaturassize = 0;
+		while(viaturas[viaturassize].mudancas != -1)
+			viaturassize++;
     }
 }
+
 void readMemory(){
     setupSems();
     int idx=0;
@@ -74,7 +157,7 @@ void readMemory(){
         while(fread(&cdat, sizeof(cdat), 1,fb )>0) {
             clientessize++;
         }
-        getShmU();
+        //getShmU();
         fclose(fb);
         fb=fopen("./utilizadores.dat", "r");
         idx=0;
@@ -97,7 +180,7 @@ void readMemory(){
             clientessize++;
         }
         fclose(futxt);
-        getShmU();
+        //getShmU();
         futxt=fopen("./utilizadores.txt","r");
         idx=0;
         USemDown();
@@ -133,7 +216,7 @@ void readMemory(){
             viaturassize++;
         }
         fclose(fb);
-        getShmV();
+        //getShmV();
         fb=fopen("./viaturas.dat", "r");
         idx=0;
         VSemDown();
@@ -154,7 +237,7 @@ void readMemory(){
             viaturassize++;
         }
         fclose(futxt);
-        getShmV();
+        //getShmV();
         futxt=fopen("./viaturas.txt","r");
         idx=0;
         VSemDown();
@@ -195,7 +278,7 @@ void printMem(){
     printf("Viaturas: \n");
     VSemDown();
     for (int i=0;i<viaturassize;i++){
-        printf("%s;%s;%s;%s;%s;%d;%s\0\n",v.ID,v.cor,v.marca,v.modelo,v.tipo,v.mudancas,v.matricula);
+        printf("%s;%s;%s;%s;%s;%d;%s\n",v.ID,v.cor,v.marca,v.modelo,v.tipo,v.mudancas,v.matricula);
     }
     VSemUp();
     printf("total: %d\n",viaturassize);
@@ -304,7 +387,7 @@ void saveMemToFile(){
 
     FILE * vtxt=fopen("./viaturas.txt","w");
     for (int i = 0; i < viaturassize ; ++i) {
-        fprintf(vtxt,"%s;%s;%s;%s;%s;%d;%s\0",v.ID,v.cor,v.marca,v.modelo,v.tipo,v.mudancas,v.matricula);
+        fprintf(vtxt,"%s;%s;%s;%s;%s;%d;%s\n",v.ID,v.cor,v.marca,v.modelo,v.tipo,v.mudancas,v.matricula);
     }
     VSemUp();
     fclose(vtxt);
@@ -314,8 +397,8 @@ int busyBikes(){
     int count;
     VSemDown();
     for (int i = 0; i < viaturassize; i++) {
-        if (v.disponivel==1){
-            printf("%s;%s;%s;%s;%s;%d;%s\0",v.ID,v.cor,v.marca,v.modelo,v.tipo,v.mudancas,v.matricula);
+        if (v.disponivel!=0){
+            printf("%s;%s;%s;%s;%s;%d;%s",v.ID,v.cor,v.marca,v.modelo,v.tipo,v.mudancas,v.matricula);
             count++;
         }
     }
@@ -326,7 +409,7 @@ int avaliableBikes(){
     int count;
     for (int i = 0; i < viaturassize; i++) {
         if (v.disponivel==0){
-            printf("%s;%s;%s;%s;%s;%d;%s\0",v.ID,v.cor,v.marca,v.modelo,v.tipo,v.mudancas,v.matricula);
+            printf("%s;%s;%s;%s;%s;%d;%s",v.ID,v.cor,v.marca,v.modelo,v.tipo,v.mudancas,v.matricula);
             count++;
         }
     }
@@ -334,6 +417,9 @@ int avaliableBikes(){
 }
 int main(){
     int option=-1;
+	//getShmU();
+	//getShmV();
+	setupshm();
     setupSems();
     while(option!=0){
         printf("Escolha uma opcao:\n1.Ler dados para a memoria\n2.Imprimir memoria\n3.Alterar utilizador\n"

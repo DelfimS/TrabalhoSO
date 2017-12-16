@@ -108,7 +108,8 @@ int main(){
 				
 					printf("ID da viatura a reservar: ");
 					fgets(mcs.dados.info1, 20, stdin);
-
+					mcs.dados.info1[strlen(mcs.dados.info1) - 1] = 0;
+			
 					status = msgsnd(idM, &mcs, sizeof(mcs.dados), 0);
 					exit_on_error(status, "Error or request");
 		
@@ -122,6 +123,7 @@ int main(){
 
 					printf("ID da viatura a reservar: ");
 					fgets(mcs.dados.info1, 20, stdin);
+					mcs.dados.info1[strlen(mcs.dados.info1) - 1] = 0;
 					
 					status = msgsnd(idM, &mcs, sizeof(mcs.dados), 0);
 					exit_on_error(status, "Error or request");
@@ -136,6 +138,7 @@ int main(){
 
                     printf("Reserva a cancelar (ID):");
                     fgets(mcs.dados.info1, 20, stdin);
+					mcs.dados.info1[strlen(mcs.dados.info1) - 1] = 0;
 
                     status = msgsnd(idM, &mcs, sizeof(mcs.dados), 0);
                     exit_on_error(status, "Error or request");
@@ -149,6 +152,7 @@ int main(){
 
 					printf("Valor a adicionar: ");
 					fgets(mcs.dados.info1, 20, stdin);
+					mcs.dados.info1[strlen(mcs.dados.info1) - 1] = 0;
 
 					status = msgsnd(idM, &mcs, sizeof(mcs.dados), 0);
 					exit_on_error(status, "Error or request");
