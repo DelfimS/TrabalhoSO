@@ -113,7 +113,7 @@ void trata_sinal_fiscal(int sinal){
         char message[200];
         for(i = 0; i<listssize; i++) {
             RSemDown();
-            if(reservas[i].clienteID != -1 && difftime( currentt, reservas[i].time) >= 300) {
+            if(reservas[i].clienteID != -1 && difftime( currentt, reservas[i].time) >= 1) {
                 int j = 0;
                 VSemDown();
                 while(strcmp(viaturas[j].ID, reservas[i].viaturaID) != 0)
@@ -322,6 +322,7 @@ int main(){
                         strcpy(msc.dados.texto, "ID inválido");
                     else if (viaturas[i].disponivel == 0 || viaturas[i].disponivel == id){
                         addAluguer(viaturas[i].ID,id);
+                        viaturas[i].disponivel=id;
                         strcpy(msc.dados.texto, "Viatura alugada");
                         sprintf(message, " start_aluguer, id=%d, viatura=%s", id, viaturas[i].ID);
                         writelog(message);

@@ -104,8 +104,8 @@
       <file leaf-file-name="servidor.c" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/servidor.c">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="175">
-              <caret line="175" column="24" lean-forward="false" selection-start-line="175" selection-start-column="24" selection-end-line="175" selection-end-column="24" />
+            <state relative-caret-position="265">
+              <caret line="324" column="50" lean-forward="false" selection-start-line="324" selection-start-column="50" selection-end-line="324" selection-end-column="50" />
               <folding>
                 <element signature="e#0#18#0" expanded="true" />
               </folding>
@@ -251,7 +251,7 @@
       <workItem from="1513437705677" duration="6022000" />
       <workItem from="1513443830396" duration="154000" />
       <workItem from="1513444041960" duration="109000" />
-      <workItem from="1513444229982" duration="4222000" />
+      <workItem from="1513444229982" duration="4422000" />
     </task>
     <task id="LOCAL-00001" summary="Added IPC_EXCL to the shm and sems">
       <created>1513174892334</created>
@@ -344,11 +344,18 @@
       <option name="project" value="LOCAL" />
       <updated>1513462757296</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="writelog now also prints the log">
+      <created>1513462903499</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1513462903499</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="70554000" />
+    <option name="totallyTimeSpent" value="70754000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="67" y="25" width="1853" height="950" extended-state="6" />
@@ -416,7 +423,8 @@
     <MESSAGE value="fixed a problem in the admin load files" />
     <MESSAGE value="now reservas and alugueres is now proper inicialized" />
     <MESSAGE value="now doesnt crash" />
-    <option name="LAST_COMMIT_MESSAGE" value="now doesnt crash" />
+    <MESSAGE value="writelog now also prints the log" />
+    <option name="LAST_COMMIT_MESSAGE" value="writelog now also prints the log" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -820,8 +828,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/servidor.c">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="175">
-          <caret line="175" column="24" lean-forward="false" selection-start-line="175" selection-start-column="24" selection-end-line="175" selection-end-column="24" />
+        <state relative-caret-position="265">
+          <caret line="324" column="50" lean-forward="false" selection-start-line="324" selection-start-column="50" selection-end-line="324" selection-end-column="50" />
           <folding>
             <element signature="e#0#18#0" expanded="true" />
           </folding>
