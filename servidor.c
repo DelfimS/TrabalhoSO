@@ -252,13 +252,14 @@ int main(){
 			} else if(strcmp(mcs.dados.operacao, "Viaturas") == 0) {
 				i = 0;
 				VSemDown();
-				while(viaturas[i].mudancas != -1) {
+                Tviatura v=viaturas[i];
+				while(v.mudancas != -1) {
                     printf("%d\n",viaturas[i].disponivel);
-					if(viaturas[i].disponivel == 0) {
-						strcpy(msc.dados.texto, viaturas[i].ID);
+					if(v.disponivel == 0) {
+						strcpy(msc.dados.texto, v.ID);
 						strcat(msc.dados.texto, " - ");
-						strcat(msc.dados.texto, viaturas[i].cor);
-						msc.dados.valor1 = viaturas[i].mudancas;
+						strcat(msc.dados.texto, v.cor);
+						msc.dados.valor1 = v.mudancas;
 						
 						status = msgsnd(idM, &msc, sizeof(msc.dados), 0);
 						exit_on_error(status, "Error on sending");
@@ -267,6 +268,7 @@ int main(){
                         writelog(message);
 					}
 					i++;
+                    v=viaturas[i];
 				}
 				VSemUp();
 				strcpy(msc.dados.texto, "done");								

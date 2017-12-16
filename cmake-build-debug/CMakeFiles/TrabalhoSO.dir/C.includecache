@@ -6,18 +6,6 @@
 
 #IncludeRegexTransform: 
 
-/home/delfim/CLionProjects/TrabalhoSO/admin.c
-stdio.h
--
-string.h
--
-stdlib.h
--
-structs.h
-/home/delfim/CLionProjects/TrabalhoSO/structs.h
-defines.h
-/home/delfim/CLionProjects/TrabalhoSO/defines.h
-
 /home/delfim/CLionProjects/TrabalhoSO/defines.h
 sys/ipc.h
 -
@@ -28,7 +16,41 @@ sys/shm.h
 sys/sem.h
 -
 
-/home/delfim/CLionProjects/TrabalhoSO/structs.h
+/home/delfim/CLionProjects/TrabalhoSO/definesM.h
 stdio.h
 -
+stdlib.h
+-
+string.h
+-
+sys/msg.h
+-
+
+/home/delfim/CLionProjects/TrabalhoSO/msgstruct.h
+
+/home/delfim/CLionProjects/TrabalhoSO/servidor.c
+stdio.h
+-
+stdlib.h
+-
+signal.h
+-
+unistd.h
+-
+time.h
+-
+sys/wait.h
+-
+string.h
+-
+defines.h
+/home/delfim/CLionProjects/TrabalhoSO/defines.h
+definesM.h
+/home/delfim/CLionProjects/TrabalhoSO/definesM.h
+structs.h
+/home/delfim/CLionProjects/TrabalhoSO/structs.h
+msgstruct.h
+/home/delfim/CLionProjects/TrabalhoSO/msgstruct.h
+
+/home/delfim/CLionProjects/TrabalhoSO/structs.h
 

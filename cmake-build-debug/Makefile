@@ -123,60 +123,6 @@ TrabalhoSO/fast:
 	$(MAKE) -f CMakeFiles/TrabalhoSO.dir/build.make CMakeFiles/TrabalhoSO.dir/build
 .PHONY : TrabalhoSO/fast
 
-admin.o: admin.c.o
-
-.PHONY : admin.o
-
-# target to build an object file
-admin.c.o:
-	$(MAKE) -f CMakeFiles/TrabalhoSO.dir/build.make CMakeFiles/TrabalhoSO.dir/admin.c.o
-.PHONY : admin.c.o
-
-admin.i: admin.c.i
-
-.PHONY : admin.i
-
-# target to preprocess a source file
-admin.c.i:
-	$(MAKE) -f CMakeFiles/TrabalhoSO.dir/build.make CMakeFiles/TrabalhoSO.dir/admin.c.i
-.PHONY : admin.c.i
-
-admin.s: admin.c.s
-
-.PHONY : admin.s
-
-# target to generate assembly for a file
-admin.c.s:
-	$(MAKE) -f CMakeFiles/TrabalhoSO.dir/build.make CMakeFiles/TrabalhoSO.dir/admin.c.s
-.PHONY : admin.c.s
-
-cliente.o: cliente.c.o
-
-.PHONY : cliente.o
-
-# target to build an object file
-cliente.c.o:
-	$(MAKE) -f CMakeFiles/TrabalhoSO.dir/build.make CMakeFiles/TrabalhoSO.dir/cliente.c.o
-.PHONY : cliente.c.o
-
-cliente.i: cliente.c.i
-
-.PHONY : cliente.i
-
-# target to preprocess a source file
-cliente.c.i:
-	$(MAKE) -f CMakeFiles/TrabalhoSO.dir/build.make CMakeFiles/TrabalhoSO.dir/cliente.c.i
-.PHONY : cliente.c.i
-
-cliente.s: cliente.c.s
-
-.PHONY : cliente.s
-
-# target to generate assembly for a file
-cliente.c.s:
-	$(MAKE) -f CMakeFiles/TrabalhoSO.dir/build.make CMakeFiles/TrabalhoSO.dir/cliente.c.s
-.PHONY : cliente.c.s
-
 servidor.o: servidor.c.o
 
 .PHONY : servidor.o
@@ -213,12 +159,6 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... edit_cache"
 	@echo "... TrabalhoSO"
-	@echo "... admin.o"
-	@echo "... admin.i"
-	@echo "... admin.s"
-	@echo "... cliente.o"
-	@echo "... cliente.i"
-	@echo "... cliente.s"
 	@echo "... servidor.o"
 	@echo "... servidor.i"
 	@echo "... servidor.s"

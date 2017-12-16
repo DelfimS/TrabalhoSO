@@ -84,7 +84,6 @@ void readMemory(){
             clientes[idx].online = 0;
             idx++;
         }
-        idx++;
         clientes[idx]=endUser;
         USemUp();
         fclose(fb);
@@ -143,7 +142,6 @@ void readMemory(){
             viaturas[idx] = vdat;
             idx++;
         }
-        idx++;
         viaturas[idx]=endBike;
         fclose(fb);
         VSemUp();

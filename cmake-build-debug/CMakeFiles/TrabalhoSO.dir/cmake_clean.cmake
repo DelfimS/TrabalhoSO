@@ -1,6 +1,4 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/TrabalhoSO.dir/admin.c.o"
-  "CMakeFiles/TrabalhoSO.dir/cliente.c.o"
   "CMakeFiles/TrabalhoSO.dir/servidor.c.o"
   "TrabalhoSO.pdb"
   "TrabalhoSO"

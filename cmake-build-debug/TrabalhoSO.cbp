@@ -86,12 +86,6 @@
 				</MakeCommands>
 			</Target>
 		</Build>
-		<Unit filename="/home/delfim/CLionProjects/TrabalhoSO/admin.c">
-			<Option target="TrabalhoSO"/>
-		</Unit>
-		<Unit filename="/home/delfim/CLionProjects/TrabalhoSO/cliente.c">
-			<Option target="TrabalhoSO"/>
-		</Unit>
 		<Unit filename="/home/delfim/CLionProjects/TrabalhoSO/defines.h">
 			<Option target="TrabalhoSO"/>
 		</Unit>
