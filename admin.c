@@ -278,7 +278,7 @@ void printMem(){
     printf("Viaturas: \n");
     VSemDown();
     for (int i=0;i<viaturassize;i++){
-        printf("%s;%s;%s;%s;%s;%d;%s\n",v.ID,v.cor,v.marca,v.modelo,v.tipo,v.mudancas,v.matricula);
+        printf("%s;%s;%s;%s;%s;%d;%s",v.ID,v.cor,v.marca,v.modelo,v.tipo,v.mudancas,v.matricula);
     }
     VSemUp();
     printf("total: %d\n",viaturassize);
@@ -387,7 +387,7 @@ void saveMemToFile(){
 
     FILE * vtxt=fopen("./viaturas.txt","w");
     for (int i = 0; i < viaturassize ; ++i) {
-        fprintf(vtxt,"%s;%s;%s;%s;%s;%d;%s\n",v.ID,v.cor,v.marca,v.modelo,v.tipo,v.mudancas,v.matricula);
+        fprintf(vtxt,"%s;%s;%s;%s;%s;%d;%s",v.ID,v.cor,v.marca,v.modelo,v.tipo,v.mudancas,v.matricula);
     }
     VSemUp();
     fclose(vtxt);
