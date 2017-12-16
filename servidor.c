@@ -173,13 +173,14 @@ void trata_sinal(int sinal){
 void writelog(char message[]) {
     time_t currentt;
     struct tm *info;
-    char logmessage[100];
+    char logmessage[1024];
 
     time(&currentt);
     info = localtime(&currentt);
     strftime(logmessage, 20, "%Y-%m-%d %H:%M:%S", info);
 
     strcat(logmessage, message);
+    printf("%s\n",logmessage);
     SSemDown();
     serlog = fopen(slog, "a");
     fprintf(serlog, "%s\n", logmessage);
