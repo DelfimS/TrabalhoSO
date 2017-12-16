@@ -11,8 +11,8 @@
 #include "msgstruct.h"
 #define spid "servidor.pid"
 #define slog "servidor.log"
-#define RKeySem 7382
-#define AKeySem 7547
+#define RKey 7382
+#define AKey 7547
 #define slogSemKey 83467
 FILE *serpid;
 FILE *serlog;
@@ -27,8 +27,10 @@ Tviatura* viaturas;
 int viaturasSemId;
 Treserva* reservas;
 int reservasSemId;
+int reservasShmId;
 Taluguer* alugueres;
 int alugueresSemId;
+int alugueresShmId;
 
 void addReserva(char id[20], int id1);
 
@@ -40,13 +42,37 @@ void writelog(char message[]);
 
 
 void iniciar_listagens(){
-    int size=0;
-    for (int i = 0; viaturas[i].mudancas!=-1; i++) {
-        size++;
-    }
-    reservas= (Treserva*)malloc(size* sizeof(Treserva));
-    alugueres=(Taluguer*)malloc(size* sizeof(Taluguer));
-    for (int j = 0; j < size; ++j) {
+    listssize=1024;
+
+        reservasShmId = shmget(RKey, (listssize+1) * sizeof(Treserva), IPC_CREAT | IPC_EXCL | 0666);
+
+        if(reservasShmId < 0){
+            reservasShmId = shmget(RKey, 0, 0);
+            exit_on_error(reservasShmId, "reservasShmId error");
+
+            reservas = (Treserva*) shmat(reservasShmId, 0, 0);
+            exit_on_null(reservas, "c shmat error");
+
+        } else {
+            reservas = (Treserva*) shmat(reservasShmId, 0, 0);
+            exit_on_null(reservas, "c shmat error");
+        }
+
+        alugueresShmId = shmget(AKey, (listssize+1) * sizeof(Taluguer), IPC_CREAT | IPC_EXCL | 0666);
+
+        if(alugueresShmId < 0){
+            alugueresShmId = shmget(AKey, 0, 0);
+            exit_on_error(alugueresShmId, "alugueresShmId error");
+
+            alugueres = (Taluguer*) shmat(alugueresShmId, 0, 0);
+            exit_on_null(alugueres, "v shmat error");
+
+        } else {
+            alugueres = (Taluguer*) shmat(alugueresShmId, 0, 0);
+            exit_on_null(alugueres, "v shmat error");
+        }
+
+    for (int j = 0; j < listssize; ++j) {
         reservas[j].clienteID=-1;
         alugueres[j].clienteID=-1;
         reservas[j].time=-1;
@@ -54,7 +80,6 @@ void iniciar_listagens(){
         strcpy(reservas[j].viaturaID,"empty");
         strcpy(alugueres[j].viaturaID,"empty");
     }
-    listssize=size;
 };
 
 void setup_semaforos(){
@@ -63,12 +88,12 @@ void setup_semaforos(){
 	exit_on_error(viaturasSemId, "Falha no semget viaturas");
 	clientesSemId=semget(shmKeyU,1,0);
 	exit_on_error(viaturasSemId, "Falha no semget clientes");
-    reservasSemId =semget(RKeySem,1,IPC_CREAT|IPC_EXCL|0666);
-    if (reservasSemId<0)reservasSemId=semget(RKeySem,1,0);
+    reservasSemId =semget(RKey,1,IPC_CREAT|IPC_EXCL|0666);
+    if (reservasSemId<0)reservasSemId=semget(RKey,1,0);
     status=semctl(reservasSemId,0,SETVAL,1);
     exit_on_error(status,"falha no semctl");
-    alugueresSemId=semget(AKeySem,1,IPC_CREAT|IPC_EXCL|0666);
-    if (alugueresSemId<0)alugueresSemId=semget(AKeySem,1,0);
+    alugueresSemId=semget(AKey,1,IPC_CREAT|IPC_EXCL|0666);
+    if (alugueresSemId<0)alugueresSemId=semget(AKey,1,0);
     status=semctl(alugueresSemId,0,SETVAL,1);
     exit_on_error(status,"falha no semctl");
     slogSemId=semget(slogSemId,1,IPC_CREAT|IPC_EXCL|0666);
@@ -113,7 +138,11 @@ void trata_sinal_fiscal(int sinal){
         char message[200];
         for(i = 0; i<listssize; i++) {
             RSemDown();
-            if(reservas[i].clienteID != -1 && difftime( currentt, reservas[i].time) >= 1) {
+            double d=difftime(currentt,reservas[i].time);
+            printf("%f\n",d);
+            printf("%d\n",reservas[i].clienteID);
+            if(reservas[i].clienteID != -1 && d >= 1.0) {
+                printf("entrou no if");
                 int j = 0;
                 VSemDown();
                 while(strcmp(viaturas[j].ID, reservas[i].viaturaID) != 0)
@@ -211,7 +240,7 @@ int main(){
 		signal(SIGALRM, trata_sinal_fiscal);
 		signal(SIGINT, trata_sinal_fiscal);
 		while(1){
-			alarm(60);
+			alarm(5);
 			pause();
 		}
 	}
@@ -407,7 +436,7 @@ void addAluguer(char id[20], int id1) {
         if (alugueres[i].clienteID==-1){
             strcpy(alugueres[i].viaturaID,id);
             alugueres[i].clienteID=id1;
-            alugueres[i].time=time(NULL);
+            time(&alugueres[i].time);
             break;
         }
     }
@@ -430,7 +459,7 @@ void addReserva(char id[20], int id1) {
         if (reservas[i].clienteID==-1){
             strcpy(reservas[i].viaturaID,id);
             reservas[i].clienteID=id1;
-            reservas[i].time=time(NULL);
+            time(&reservas[i].time);
             break;
         }
     }
