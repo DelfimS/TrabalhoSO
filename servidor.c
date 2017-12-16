@@ -75,7 +75,7 @@ void setup_semaforos(){
     exit_on_error(status,"falha no semctl");
     slogSemId=semget(slogSemId,1,IPC_CREAT|IPC_EXCL|0666);
     if (slogSemId<0)clientesSemId=semget(slogSemKey,1,0);
-    status=semctl(clientesSemId,0,SETVAL,1);
+    status=semctl(slogSemId,0,SETVAL,1);
     exit_on_error(status,"falha no semctl");
 }
 void USemUp(){int status=semop(clientesSemId,&UP,1);exit_on_error(status,"erro no UP")};
@@ -236,7 +236,7 @@ int main(){
 							msc.dados.valor1 = clientes[i].id;
 							strcpy(msc.dados.texto, "Sessão iniciada");
                             sprintf(message, " login_ok, name=%s, id=%d, pid=%d", clientes[i].nick, clientes[i].id, mcs.dados.myid);
-                            writelog(message)
+                            writelog(message);
 							break;
 						}else {
                             sprintf(message, " login_error, name=%s, pid=%d, invalid_password", clientes[i].nick, mcs.dados.myid);
@@ -253,6 +253,7 @@ int main(){
 				i = 0;
 				VSemDown();
 				while(viaturas[i].mudancas != -1) {
+                    printf("%d\n",viaturas[i].disponivel);
 					if(viaturas[i].disponivel == 0) {
 						strcpy(msc.dados.texto, viaturas[i].ID);
 						strcat(msc.dados.texto, " - ");

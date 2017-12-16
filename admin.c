@@ -55,8 +55,6 @@ void createShmV(){
     exit_on_null(viaturas,"falha no shmat");
 }
 void getShmV(){
-    //int size=sizeof(Tviatura);
-    //int sizelist=viaturassize;
     int id=shmget(shmKeyV,(viaturassize+1)* sizeof(Tviatura),0);
     if (id<0)createShmV();
     else {
@@ -65,6 +63,7 @@ void getShmV(){
     }
 }
 void readMemory(){
+    setupSems();
     int idx=0;
     viaturassize=0;
     clientessize=0;
@@ -307,7 +306,7 @@ void saveMemToFile(){
 
     FILE * vtxt=fopen("./viaturas.txt","w");
     for (int i = 0; i < viaturassize ; ++i) {
-        fprintf(vtxt,"%s;%s;%s;%s;%s;%d;%s\0\n",v.ID,v.cor,v.marca,v.modelo,v.tipo,v.mudancas,v.matricula);
+        fprintf(vtxt,"%s;%s;%s;%s;%s;%d;%s\0",v.ID,v.cor,v.marca,v.modelo,v.tipo,v.mudancas,v.matricula);
     }
     VSemUp();
     fclose(vtxt);
@@ -318,7 +317,7 @@ int busyBikes(){
     VSemDown();
     for (int i = 0; i < viaturassize; i++) {
         if (v.disponivel==1){
-            printf("%s;%s;%s;%s;%s;%d;%s\0\n",v.ID,v.cor,v.marca,v.modelo,v.tipo,v.mudancas,v.matricula);
+            printf("%s;%s;%s;%s;%s;%d;%s\0",v.ID,v.cor,v.marca,v.modelo,v.tipo,v.mudancas,v.matricula);
             count++;
         }
     }
@@ -329,7 +328,7 @@ int avaliableBikes(){
     int count;
     for (int i = 0; i < viaturassize; i++) {
         if (v.disponivel==0){
-            printf("%s;%s;%s;%s;%s;%d;%s\0\n",v.ID,v.cor,v.marca,v.modelo,v.tipo,v.mudancas,v.matricula);
+            printf("%s;%s;%s;%s;%s;%d;%s\0",v.ID,v.cor,v.marca,v.modelo,v.tipo,v.mudancas,v.matricula);
             count++;
         }
     }
