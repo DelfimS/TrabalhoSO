@@ -41,36 +41,44 @@ void addAluguer(char id[20], int id1);
 void writelog(char message[]);
 
 
+void VSemDown(){int status=semop(viaturasSemId,&DOWN,1);exit_on_error(status,"erro no DOWN")}
+
+void VSemUp(){int status=semop(viaturasSemId,&UP,1);exit_on_error(status,"erro no UP")}
+
 void iniciar_listagens(){
-    listssize=1024;
+    listssize=0;
+    VSemDown();
+    while(viaturas[listssize].mudancas!=-1){
+        listssize++;
+    }
+    VSemUp();
+    reservasShmId = shmget(RKey, (listssize) * sizeof(Treserva), IPC_CREAT | IPC_EXCL | 0666);
 
-        reservasShmId = shmget(RKey, (listssize+1) * sizeof(Treserva), IPC_CREAT | IPC_EXCL | 0666);
+    if(reservasShmId < 0){
+        reservasShmId = shmget(RKey, 0, 0);
+        exit_on_error(reservasShmId, "reservasShmId error");
 
-        if(reservasShmId < 0){
-            reservasShmId = shmget(RKey, 0, 0);
-            exit_on_error(reservasShmId, "reservasShmId error");
+        reservas = (Treserva*) shmat(reservasShmId, 0, 0);
+        exit_on_null(reservas, "c shmat error");
 
+    } else {
             reservas = (Treserva*) shmat(reservasShmId, 0, 0);
             exit_on_null(reservas, "c shmat error");
+    }
 
-        } else {
-            reservas = (Treserva*) shmat(reservasShmId, 0, 0);
-            exit_on_null(reservas, "c shmat error");
-        }
+    alugueresShmId = shmget(AKey, (listssize) * sizeof(Taluguer), IPC_CREAT | IPC_EXCL | 0666);
 
-        alugueresShmId = shmget(AKey, (listssize+1) * sizeof(Taluguer), IPC_CREAT | IPC_EXCL | 0666);
+    if(alugueresShmId < 0){
+        alugueresShmId = shmget(AKey, 0, 0);
+        exit_on_error(alugueresShmId, "alugueresShmId error");
 
-        if(alugueresShmId < 0){
-            alugueresShmId = shmget(AKey, 0, 0);
-            exit_on_error(alugueresShmId, "alugueresShmId error");
+        alugueres = (Taluguer*) shmat(alugueresShmId, 0, 0);
+        exit_on_null(alugueres, "v shmat error");
 
-            alugueres = (Taluguer*) shmat(alugueresShmId, 0, 0);
-            exit_on_null(alugueres, "v shmat error");
-
-        } else {
-            alugueres = (Taluguer*) shmat(alugueresShmId, 0, 0);
-            exit_on_null(alugueres, "v shmat error");
-        }
+    } else {
+        alugueres = (Taluguer*) shmat(alugueresShmId, 0, 0);
+        exit_on_null(alugueres, "v shmat error");
+    }
 
     for (int j = 0; j < listssize; ++j) {
         reservas[j].clienteID=-1;
@@ -102,9 +110,7 @@ void setup_semaforos(){
     exit_on_error(status,"falha no semctl");
 }
 void USemUp(){int status=semop(clientesSemId,&UP,1);exit_on_error(status,"erro no UP")};
-void USemDown(){int status=semop(clientesSemId,&DOWN,1);exit_on_error(status,"erro no DOWN")};
-void VSemUp(){int status=semop(viaturasSemId,&UP,1);exit_on_error(status,"erro no UP")};
-void VSemDown(){int status=semop(viaturasSemId,&DOWN,1);exit_on_error(status,"erro no DOWN")};
+void USemDown(){int status=semop(clientesSemId,&DOWN,1);exit_on_error(status,"erro no DOWN")};;;
 void RSemUp(){int status=semop(reservasSemId,&UP,1);exit_on_error(status,"erro no UP")};
 void RSemDown(){int status=semop(reservasSemId,&DOWN,1);exit_on_error(status,"erro no DOWN")};
 void ASemUp(){int status=semop(alugueresSemId,&UP,1);exit_on_error(status,"erro no UP")};
@@ -139,10 +145,7 @@ void trata_sinal_fiscal(int sinal){
         for(i = 0; i<listssize; i++) {
             RSemDown();
             double d=difftime(currentt,reservas[i].time);
-            printf("%f\n",d);
-            printf("%d\n",reservas[i].clienteID);
-            if(reservas[i].clienteID != -1 && d >= 1.0) {
-                printf("entrou no if");
+            if(reservas[i].clienteID != -1 && d >= 300) {
                 int j = 0;
                 VSemDown();
                 while(strcmp(viaturas[j].ID, reservas[i].viaturaID) != 0)
@@ -167,6 +170,7 @@ void trata_sinal_fiscal(int sinal){
                     clientes[k].saldo--;
                     if(clientes[k].saldo <= 0) {
                         int dur = (int) (difftime( currentt, alugueres[i].time) / 60);
+                        setDisponivel(0,alugueres[i].viaturaID);
                         sprintf(message, " end_aluguer, id=%d, viatura=%s, duracao=%d", clientes[k].id, alugueres[i].viaturaID, dur);
                         writelog(message);
                         sprintf(message, " update_saldo, id=%d, initial=%d, used=%d, final=%d", clientes[k].id, dur, dur, 0);
@@ -240,7 +244,7 @@ int main(){
 		signal(SIGALRM, trata_sinal_fiscal);
 		signal(SIGINT, trata_sinal_fiscal);
 		while(1){
-			alarm(5);
+			alarm(60);
 			pause();
 		}
 	}

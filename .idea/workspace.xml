@@ -13,6 +13,7 @@
   <component name="ChangeListManager">
     <list default="true" id="5b30dbae-4357-42fc-8f3a-e41d4ff14b33" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/admin.c" afterPath="$PROJECT_DIR$/admin.c" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/servidor.c" afterPath="$PROJECT_DIR$/servidor.c" />
     </list>
     <ignored path="$PROJECT_DIR$/cmake-build-debug/" />
@@ -40,8 +41,8 @@
       <file leaf-file-name="admin.c" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/admin.c">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="5040">
-              <caret line="280" column="36" lean-forward="false" selection-start-line="280" selection-start-column="36" selection-end-line="280" selection-end-column="36" />
+            <state relative-caret-position="-5886">
+              <caret line="30" column="2" lean-forward="true" selection-start-line="30" selection-start-column="2" selection-end-line="30" selection-end-column="2" />
               <folding>
                 <element signature="e#42#60#0" expanded="true" />
               </folding>
@@ -94,7 +95,7 @@
       <file leaf-file-name="defines.h" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/defines.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="108">
+            <state relative-caret-position="162">
               <caret line="9" column="28" lean-forward="false" selection-start-line="9" selection-start-column="28" selection-end-line="9" selection-end-column="28" />
               <folding />
             </state>
@@ -104,8 +105,8 @@
       <file leaf-file-name="servidor.c" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/servidor.c">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="265">
-              <caret line="324" column="50" lean-forward="false" selection-start-line="324" selection-start-column="50" selection-end-line="324" selection-end-column="50" />
+            <state relative-caret-position="445">
+              <caret line="305" column="24" lean-forward="true" selection-start-line="305" selection-start-column="24" selection-end-line="305" selection-end-column="24" />
               <folding>
                 <element signature="e#0#18#0" expanded="true" />
               </folding>
@@ -122,11 +123,23 @@
       <find>strcpy_s</find>
       <find>VSemDown();</find>
       <find>VSemDow</find>
+      <find>rshm</find>
     </findStrings>
     <replaceStrings>
       <replace />
       <replace>strcpy_s</replace>
       <replace>strcpy</replace>
+      <replace>listssize</replace>
+      <replace>Treserva</replace>
+      <replace>rshm</replace>
+      <replace>RKey</replace>
+      <replace>reservas</replace>
+      <replace>ashm</replace>
+      <replace>AKey</replace>
+      <replace>Taluguer</replace>
+      <replace>aluguer</replace>
+      <replace>reservasShmId</replace>
+      <replace>alugueresShmId</replace>
     </replaceStrings>
   </component>
   <component name="Git.Settings">
@@ -251,7 +264,8 @@
       <workItem from="1513437705677" duration="6022000" />
       <workItem from="1513443830396" duration="154000" />
       <workItem from="1513444041960" duration="109000" />
-      <workItem from="1513444229982" duration="4422000" />
+      <workItem from="1513444229982" duration="8530000" />
+      <workItem from="1513645760335" duration="1497000" />
     </task>
     <task id="LOCAL-00001" summary="Added IPC_EXCL to the shm and sems">
       <created>1513174892334</created>
@@ -351,23 +365,37 @@
       <option name="project" value="LOCAL" />
       <updated>1513462903499</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="now sets viatura.disponivel=id">
+      <created>1513463126843</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1513463126843</updated>
+    </task>
+    <task id="LOCAL-00016" summary="ta acabado crl">
+      <created>1513466798979</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1513466798979</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="70754000" />
+    <option name="totallyTimeSpent" value="76359000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="67" y="25" width="1853" height="950" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.097399004" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.09850581" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="14" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32478634" sideWeight="0.49363586" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="CMake" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32938388" sideWeight="0.5" order="15" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.005938242" sideWeight="0.5018888" order="16" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="17" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.08913309" sideWeight="0.49811116" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2918193" sideWeight="0.49811116" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="18" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
@@ -424,11 +452,30 @@
     <MESSAGE value="now reservas and alugueres is now proper inicialized" />
     <MESSAGE value="now doesnt crash" />
     <MESSAGE value="writelog now also prints the log" />
-    <option name="LAST_COMMIT_MESSAGE" value="writelog now also prints the log" />
+    <MESSAGE value="now sets viatura.disponivel=id" />
+    <MESSAGE value="ta acabado crl" />
+    <option name="LAST_COMMIT_MESSAGE" value="ta acabado crl" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="44" />
+      <breakpoints>
+        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+          <url>file://$PROJECT_DIR$/servidor.c</url>
+          <line>330</line>
+          <option name="timeStamp" value="44" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+          <url>file://$PROJECT_DIR$/servidor.c</url>
+          <line>43</line>
+          <option name="timeStamp" value="45" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+          <url>file://$PROJECT_DIR$/servidor.c</url>
+          <line>287</line>
+          <option name="timeStamp" value="46" />
+        </line-breakpoint>
+      </breakpoints>
+      <option name="time" value="47" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -790,19 +837,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/cliente.c">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2628">
-          <caret line="146" column="64" lean-forward="false" selection-start-line="146" selection-start-column="64" selection-end-line="146" selection-end-column="64" />
-          <folding>
-            <element signature="e#0#18#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/defines.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="108">
+        <state relative-caret-position="162">
           <caret line="9" column="28" lean-forward="false" selection-start-line="9" selection-start-column="28" selection-end-line="9" selection-end-column="28" />
           <folding />
         </state>
@@ -816,10 +853,20 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/cliente.c">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2628">
+          <caret line="146" column="64" lean-forward="false" selection-start-line="146" selection-start-column="64" selection-end-line="146" selection-end-column="64" />
+          <folding>
+            <element signature="e#0#18#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/admin.c">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="5040">
-          <caret line="280" column="36" lean-forward="false" selection-start-line="280" selection-start-column="36" selection-end-line="280" selection-end-column="36" />
+        <state relative-caret-position="-5886">
+          <caret line="30" column="2" lean-forward="true" selection-start-line="30" selection-start-column="2" selection-end-line="30" selection-end-column="2" />
           <folding>
             <element signature="e#42#60#0" expanded="true" />
           </folding>
@@ -828,8 +875,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/servidor.c">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="265">
-          <caret line="324" column="50" lean-forward="false" selection-start-line="324" selection-start-column="50" selection-end-line="324" selection-end-column="50" />
+        <state relative-caret-position="445">
+          <caret line="305" column="24" lean-forward="true" selection-start-line="305" selection-start-column="24" selection-end-line="305" selection-end-column="24" />
           <folding>
             <element signature="e#0#18#0" expanded="true" />
           </folding>

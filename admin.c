@@ -157,7 +157,6 @@ void readMemory(){
         while(fread(&cdat, sizeof(cdat), 1,fb )>0) {
             clientessize++;
         }
-        //getShmU();
         fclose(fb);
         fb=fopen("./utilizadores.dat", "r");
         idx=0;
@@ -180,7 +179,6 @@ void readMemory(){
             clientessize++;
         }
         fclose(futxt);
-        //getShmU();
         futxt=fopen("./utilizadores.txt","r");
         idx=0;
         USemDown();
@@ -216,7 +214,6 @@ void readMemory(){
             viaturassize++;
         }
         fclose(fb);
-        //getShmV();
         fb=fopen("./viaturas.dat", "r");
         idx=0;
         VSemDown();
@@ -237,7 +234,6 @@ void readMemory(){
             viaturassize++;
         }
         fclose(futxt);
-        //getShmV();
         futxt=fopen("./viaturas.txt","r");
         idx=0;
         VSemDown();
@@ -417,8 +413,6 @@ int avaliableBikes(){
 }
 int main(){
     int option=-1;
-	//getShmU();
-	//getShmV();
 	setupshm();
     setupSems();
     while(option!=0){
