@@ -199,9 +199,9 @@ void readMemory(){
             tokenu=strtok(NULL,";");
             cl.saldo = atoi(tokenu);
             cl.online=0;
-            clientes[idx++] = cl;
+            clientes[idx] = cl;
+	    idx++;
         }
-        idx++;
         clientes[idx]=endUser;
         USemUp();
         fclose(futxt);
@@ -254,9 +254,9 @@ void readMemory(){
             tokenv=strtok(NULL,";");
             strcpy(vi.matricula, tokenv);
             vi.disponivel=0;
-            viaturas[idx++] = vi;
+            viaturas[idx] = vi;
+	    idx++;
         }
-        idx++;
         viaturas[idx]=endBike;
         VSemUp();
         fclose(futxt);
